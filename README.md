@@ -58,7 +58,7 @@ releases of the toolkit.
 * Optional, but recommended:
     * Gradle 3.1 or greater, needed for building the GATK. We recommend using the `./gradlew` script which will
       download and use an appropriate gradle version automatically (see examples below).
-    * Python 2.6 or greater (needed for running the `gatk-launch` frontend script)
+    * [THIS SECTION NEEDS TO BE UPDATED WITH CONDA INFO] Python 2.6 or greater (needed for running the `gatk-launch` frontend script)
     * R 3.1.3 (needed for producing plots in certain tools, and for running the test suite)
     * [git-lfs](https://git-lfs.github.com/) 1.1.0 or greater (needed to download large files for the complete test suite).
       Run `git lfs install` after downloading, followed by `git lfs pull` from the root of your git clone to download the large files. The download is several hundred megabytes.
