@@ -28,7 +28,7 @@ final public class SimpleAnnotatedGenomicRegion implements Locatable {
     public final static String START_HEADER = "START";
     public final static String END_HEADER = "END";
 
-    private final SimpleInterval interval;
+    private SimpleInterval interval;
     private final SortedMap<String, String> annotations;
 
     public SimpleAnnotatedGenomicRegion(final SimpleInterval interval, final SortedMap<String, String> annotations) {
@@ -58,6 +58,30 @@ final public class SimpleAnnotatedGenomicRegion implements Locatable {
     public int getEnd() {
         return interval.getEnd();
     }
+
+    public void setInterval(final Locatable interval) {
+        this.interval = new SimpleInterval(interval);
+    }
+
+    public void setEnd(final int end) {
+        this.interval = new SimpleInterval(this.interval.getContig(), this.interval.getStart(), end);
+    }
+
+    public String getAnnotationValue(final String annotationName) {
+        return annotations.get(annotationName);
+    }
+
+    /**
+     * Creates the annotation if it does not exist.
+     *
+     * @param annotationName the name for the annotation
+     * @param annotationValue the value
+     * @return the previous value or null
+     */
+    public String setAnnotation(final String annotationName, final String annotationValue) {
+        return annotations.put(annotationName, annotationValue);
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -90,7 +114,8 @@ final public class SimpleAnnotatedGenomicRegion implements Locatable {
      *  {@link SimpleAnnotatedGenomicRegion::END_HEADER} for defining the genomic region.
      *
      * @param tsvRegionFile -- File containing tsv of genomic regions and annotations per line.  E.g. a segment file.
-     * @param headersOfInterest -- should not include any headers that are used to define the region (e.g. contig, start, end)
+     * @param headersOfInterest -- The columns that should be in the resulting annotated region.  This list should
+     *                          not include any headers that are used to define the region (e.g. contig, start, end)
      * @return annotated regions with one line in the input file for each entry of the list.  Never {@code null}
      */
     public static List<SimpleAnnotatedGenomicRegion> readAnnotatedRegions(final File tsvRegionFile, final Set<String> headersOfInterest) {
@@ -99,6 +124,34 @@ final public class SimpleAnnotatedGenomicRegion implements Locatable {
             @Override
             protected SimpleAnnotatedGenomicRegion createRecord(final DataLine dataLine) {
                 final Set<String> headersOfInterestPresent = Sets.intersection(headersOfInterest, new HashSet<>(this.columns().names()));
+                final Map<String, String> annotationMap = headersOfInterestPresent.stream()
+                        .collect(Collectors.toMap(Function.identity(), s -> dataLine.get(s)));
+
+                return new SimpleAnnotatedGenomicRegion( new SimpleInterval(dataLine.get(CONTIG_HEADER), dataLine.getInt(START_HEADER), dataLine.getInt(END_HEADER)),
+                        new TreeMap<>(annotationMap));
+            }
+        }) {
+            return reader.toList();
+        } catch (final IOException ioe) {
+            throw new UserException.CouldNotReadInputFile("Cannot read input file: " + tsvRegionFile.getAbsolutePath(), ioe);
+        }
+    }
+
+    /** TODO: Need an automated test.
+     *  See {@link SimpleAnnotatedGenomicRegion#readAnnotatedRegions(File, Set)}, except that all columns (except those to define the interval)
+     *   are considered headers of interest.
+     *
+     * @param tsvRegionFile -- File containing tsv of genomic regions and annotations per line.  E.g. a segment file.
+     * @return annotated regions with one line in the input file for each entry of the list.  Never {@code null}
+     */
+    public static List<SimpleAnnotatedGenomicRegion> readAnnotatedRegions(final File tsvRegionFile) {
+
+        try (final TableReader<SimpleAnnotatedGenomicRegion> reader = new TableReader<SimpleAnnotatedGenomicRegion>(tsvRegionFile) {
+
+            @Override
+            protected SimpleAnnotatedGenomicRegion createRecord(final DataLine dataLine) {
+                final Set<String> headersOfInterestPresent = Sets.difference(new HashSet<>(this.columns().names()),
+                        Sets.newHashSet(CONTIG_HEADER, START_HEADER, END_HEADER));
                 final Map<String, String> annotationMap = headersOfInterestPresent.stream()
                         .collect(Collectors.toMap(Function.identity(), s -> dataLine.get(s)));
 

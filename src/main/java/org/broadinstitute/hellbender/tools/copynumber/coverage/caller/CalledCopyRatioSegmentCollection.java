@@ -15,7 +15,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public final class CalledCopyRatioSegmentCollection extends SampleLocatableCollection<CalledCopyRatioSegment> {
-    enum CalledCopyRatioSegmentTableColumn {
+    public enum CalledCopyRatioSegmentTableColumn {
         CONTIG,
         START,
         END,
