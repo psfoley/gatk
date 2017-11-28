@@ -19,12 +19,9 @@ import java.util.stream.Collectors;
  * This utility class performs a simple tagging of germline segments in a tumor segments file.
  */
 public class SimpleGermlineTagger {
+
     private SimpleGermlineTagger(){}
 
-
-    final static public String GERMLINE_TAG_AMP = "+";
-    final static public String GERMLINE_TAG_DEL = "-";
-    final static public String GERMLINE_TAG_NOTHING = "0";
     final static public int GERMLINE_TAG_PADDING_IN_BP = 1000;
 
     /**
@@ -62,13 +59,13 @@ public class SimpleGermlineTagger {
         // Grab the merged normal segments that do not have a neutral call.
         final List<SimpleAnnotatedGenomicRegion> nonZeroMergedNormalSegments = mergedNormalSegments.stream()
                 .filter(s -> !StringUtils.isEmpty(s.getAnnotations().get(callAnnotation)))
-                .filter(s -> !s.getAnnotations().get(callAnnotation).equals(CalledCopyRatioSegment.Call.NEUTRAL.toString()))
+                .filter(s -> !s.getAnnotations().get(callAnnotation).equals(CalledCopyRatioSegment.Call.NEUTRAL.getOutputString()))
                 .collect(Collectors.toList());
 
         final OverlapDetector<SimpleAnnotatedGenomicRegion> overlapDetector = OverlapDetector.create(tumorSegments);
 
         // First initialize an annotation for all of the tumor segments that state that there is no germline influence
-        tumorSegments.forEach(s -> s.setAnnotation(outputAnnotationName, GERMLINE_TAG_NOTHING));
+        tumorSegments.forEach(s -> s.setAnnotation(outputAnnotationName, CalledCopyRatioSegment.Call.NEUTRAL.getOutputString()));
 
         for (final SimpleAnnotatedGenomicRegion nonZeroMergedNormalSegment : nonZeroMergedNormalSegments) {
 
