@@ -23,7 +23,7 @@ public class TagGermlineEvents extends GATKTool{
 
     final static public String MATCHED_NORMAL_SEGMENT_FILE_SHORT_NAME = "CMNSeg";
     final static public String MATCHED_NORMAL_SEGMENT_FILE_LONG_NAME = "CalledMatchedNormalSegFile";
-
+    final static public int DEFAULT_GERMLINE_TAG_PADDING_IN_BP = 1000;
     final static public String GERMLINE_TAG_HEADER = "POSSIBLE_GERMLINE";
 
     @Argument(
@@ -46,6 +46,13 @@ public class TagGermlineEvents extends GATKTool{
             fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME)
     private File outputFile;
 
+    @Argument(
+            doc = "Amount of padding to allow a breakpoint match.",
+            shortName = "pbp",
+            fullName = "paddingInBp")
+    private int paddingInBp = DEFAULT_GERMLINE_TAG_PADDING_IN_BP;
+
+
     @Override
     public void traverse() {
         final List<SimpleAnnotatedGenomicRegion> initialTumorSegments = SimpleAnnotatedGenomicRegion.readAnnotatedRegions(tumorSegmentFile);
@@ -54,7 +61,8 @@ public class TagGermlineEvents extends GATKTool{
         final String callHeader = CalledCopyRatioSegmentCollection.CalledCopyRatioSegmentTableColumn.CALL.toString();
 
         final List<SimpleAnnotatedGenomicRegion> tumorSegments = SimpleGermlineTagger.tagTumorSegmentsWithGermlineActivity(
-                initialTumorSegments, initialNormalSegments, callHeader, getBestAvailableSequenceDictionary(), GERMLINE_TAG_HEADER);
+                initialTumorSegments, initialNormalSegments, callHeader, getBestAvailableSequenceDictionary(),
+                GERMLINE_TAG_HEADER, paddingInBp);
 
         SimpleAnnotatedGenomicRegion.writeAnnotatedRegionsAsTsv(tumorSegments, outputFile);
     }

@@ -22,8 +22,6 @@ public class SimpleGermlineTagger {
 
     private SimpleGermlineTagger(){}
 
-    final static public int GERMLINE_TAG_PADDING_IN_BP = 1000;
-
     /**
      * @param initialTumorSegments segment file from the tumor sample.  Cannot contain intervals that overlap.
      *                              Never {@code null}.
@@ -39,7 +37,8 @@ public class SimpleGermlineTagger {
     public static List<SimpleAnnotatedGenomicRegion> tagTumorSegmentsWithGermlineActivity(final List<SimpleAnnotatedGenomicRegion> initialTumorSegments,
                                                                                           final List<SimpleAnnotatedGenomicRegion> initialNormalSegments,
                                                                                           final String callAnnotation,
-                                                                                          final SAMSequenceDictionary dictionary, final String outputAnnotationName) {
+                                                                                          final SAMSequenceDictionary dictionary,
+                                                                                          final String outputAnnotationName, final int paddingInBp) {
 
         Utils.nonNull(dictionary);
         Utils.nonNull(initialTumorSegments);
@@ -74,10 +73,10 @@ public class SimpleGermlineTagger {
 
             // We need to see that normal segment start and end position (with padding) represented in start and end positions of the tumor segments.
             final boolean isStartPositionSeen = overlappingTumorSegments.stream()
-                    .anyMatch(s -> Math.abs(s.getStart() - nonZeroMergedNormalSegment.getStart()) < GERMLINE_TAG_PADDING_IN_BP);
+                    .anyMatch(s -> Math.abs(s.getStart() - nonZeroMergedNormalSegment.getStart()) < paddingInBp);
 
             final boolean isEndPositionSeen = overlappingTumorSegments.stream()
-                    .anyMatch(s -> Math.abs(s.getEnd() - nonZeroMergedNormalSegment.getEnd()) < GERMLINE_TAG_PADDING_IN_BP);
+                    .anyMatch(s -> Math.abs(s.getEnd() - nonZeroMergedNormalSegment.getEnd()) < paddingInBp);
 
             // TODO: There are still minor bugs here.  Mostly if a segment is smaller than the padding.
             if (isEndPositionSeen && isStartPositionSeen) {
