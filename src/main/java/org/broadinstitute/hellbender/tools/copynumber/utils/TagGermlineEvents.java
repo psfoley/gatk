@@ -67,4 +67,8 @@ public class TagGermlineEvents extends GATKTool{
         SimpleAnnotatedGenomicRegion.writeAnnotatedRegionsAsTsv(tumorSegments, outputFile);
     }
 
+    @Override
+    public boolean requiresReference() {
+        return true;
+    }
 }

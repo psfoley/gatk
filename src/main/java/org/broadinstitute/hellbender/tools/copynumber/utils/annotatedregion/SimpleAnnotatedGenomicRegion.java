@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import htsjdk.samtools.util.Locatable;
 import org.broadinstitute.hellbender.exceptions.UserException;
+import org.broadinstitute.hellbender.tools.exome.SegmentMergeUtils;
 import org.broadinstitute.hellbender.utils.SimpleInterval;
 import org.broadinstitute.hellbender.utils.tsv.DataLine;
 import org.broadinstitute.hellbender.utils.tsv.TableColumnCollection;
@@ -69,6 +70,10 @@ final public class SimpleAnnotatedGenomicRegion implements Locatable {
 
     public String getAnnotationValue(final String annotationName) {
         return annotations.get(annotationName);
+    }
+
+    public boolean hasAnnotation(final String annotationName) {
+        return annotations.containsKey(annotationName);
     }
 
     /**
@@ -197,4 +202,23 @@ final public class SimpleAnnotatedGenomicRegion implements Locatable {
             throw new UserException.CouldNotCreateOutputFile("Cannot write file: " + outputFile.getAbsolutePath(), ioe);
         }
     }
+
+    /** TODO: Docs
+     * Throws exception if the two regions cannot be merged.  This is usually due to being on different contigs.
+     * When annotations conflict, use the separator to put separate values.
+     */
+     public static SimpleAnnotatedGenomicRegion merge(final SimpleAnnotatedGenomicRegion region1, final SimpleAnnotatedGenomicRegion region2,
+                                                      final String separator) {
+         final SimpleInterval interval = SegmentMergeUtils.mergeSegments(region1.getInterval(), region2.getInterval());
+
+         final SortedMap<String, String> annotations = new TreeMap<>();
+         final Set<Map.Entry<String, String>> intersectingEntries = Sets.intersection(region1.getAnnotations().entrySet(),
+                 region2.getAnnotations().entrySet());
+
+         intersectingEntries.forEach(e -> annotations.put(e.getKey(), e.getValue()));
+
+         // TODO: Add entries from the two regions where there might be a conflict or in only one region.
+
+         return new SimpleAnnotatedGenomicRegion(interval, annotations);
+     }
 }
