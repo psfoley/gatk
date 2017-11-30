@@ -13,6 +13,7 @@ import org.broadinstitute.hellbender.utils.IntervalUtils;
 import java.io.File;
 import java.util.List;
 
+//TODO: Actual tests
 @CommandLineProgramProperties(
         oneLineSummary = "(EXPERIMENTAL) TODO.  THIS TOOL IS TOTALLY UNSUPPORTED,",
         summary = "(EXPERIMENTAL) TODO.  THIS TOOL IS TOTALLY UNSUPPORTED,",
@@ -32,6 +33,8 @@ public class MergeAnnotatedRegions extends GATKTool {
             fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME)
     private File outputFile;
 
+    final static String DEFAULT_SEPARATOR = "__";
+
     @Override
     public boolean requiresReference() {
         return true;
@@ -48,8 +51,10 @@ public class MergeAnnotatedRegions extends GATKTool {
                 getBestAvailableSequenceDictionary());
 
         // Perform the actual merging
+        // For each segment, see if we have more than one overlap.  If we do, merge to create a new segment.
+        final List<SimpleAnnotatedGenomicRegion> finalSegments = SimpleAnnotatedGenomicRegion.mergeRegions(segments,
+                getBestAvailableSequenceDictionary(), DEFAULT_SEPARATOR);
 
-
-        SimpleAnnotatedGenomicRegion.writeAnnotatedRegionsAsTsv(tumorSegments, outputFile);
+        SimpleAnnotatedGenomicRegion.writeAnnotatedRegionsAsTsv(finalSegments, outputFile);
     }
 }
