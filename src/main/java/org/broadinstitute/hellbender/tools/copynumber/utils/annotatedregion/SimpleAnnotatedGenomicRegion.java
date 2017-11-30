@@ -291,8 +291,8 @@ final public class SimpleAnnotatedGenomicRegion implements Locatable {
      * @return
      */
      private static String renderConflict(final String s1, final String s2, final String separator) {
-        final String[] s1Vals = StringUtils.split(s1, separator);
-        final String[] s2Vals = StringUtils.split(s2, separator);
+        final String[] s1Vals = StringUtils.splitByWholeSeparator(s1, separator);
+        final String[] s2Vals = StringUtils.splitByWholeSeparator(s2, separator);
 
         final Set<String> allValsSet = new HashSet<>(Arrays.asList(s1Vals));
         allValsSet.addAll(Arrays.asList(s2Vals));

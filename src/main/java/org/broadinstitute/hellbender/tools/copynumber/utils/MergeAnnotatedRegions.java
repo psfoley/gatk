@@ -16,7 +16,7 @@ import java.util.List;
 //TODO: Actual tests
 @CommandLineProgramProperties(
         oneLineSummary = "(EXPERIMENTAL) TODO.  THIS TOOL IS TOTALLY UNSUPPORTED,",
-        summary = "(EXPERIMENTAL) TODO.  THIS TOOL IS TOTALLY UNSUPPORTED,",
+        summary = "(EXPERIMENTAL) TODO.  This tool will rearrange column headers. THIS TOOL IS TOTALLY UNSUPPORTED,",
         programGroup = CopyNumberProgramGroup.class)
 @BetaFeature
 public class MergeAnnotatedRegions extends GATKTool {
