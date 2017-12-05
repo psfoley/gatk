@@ -9,6 +9,7 @@ import htsjdk.samtools.filter.SecondaryAlignmentFilter;
 import htsjdk.samtools.reference.ReferenceSequenceFileWalker;
 import htsjdk.samtools.util.IntervalList;
 import htsjdk.samtools.util.SamLocusIterator;
+import java.nio.file.Path;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.logging.log4j.LogManager;
