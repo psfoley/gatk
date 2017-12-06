@@ -20,7 +20,7 @@ RUN ln -s /testdata src/test/resources
 
 # Create a simple unit test runner
 ENV CI true
-RUN echo "source activate gatkenv" > /root/run_unit_tests.sh && \
+RUN echo "source activate gatk" > /root/run_unit_tests.sh && \
     echo "cd /gatk/ && ./gradlew jacocoTestReport" >> /root/run_unit_tests.sh
 
 WORKDIR /root
