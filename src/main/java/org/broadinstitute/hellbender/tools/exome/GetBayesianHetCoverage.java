@@ -296,7 +296,7 @@ public final class GetBayesianHetCoverage extends CommandLineProgram {
         final BayesianHetPulldownCalculator normalHetPulldownCalculator;
         final Pulldown normalHetPulldown;
 
-        normalHetPulldownCalculator = new BayesianHetPulldownCalculator(REFERENCE_ARGUMENTS.getReferenceFile(),
+        normalHetPulldownCalculator = new BayesianHetPulldownCalculator(REFERENCE_ARGUMENTS.getReferencePath(),
                 IntervalList.fromFile(snpFile), minimumMappingQuality, minimumBaseQuality, readDepthThreshold,
                 VALIDATION_STRINGENCY, errorProbabilityAdjustmentFactor,
                 new BalancedHeterozygousPileupPriorModel());
@@ -315,7 +315,7 @@ public final class GetBayesianHetCoverage extends CommandLineProgram {
         final BayesianHetPulldownCalculator tumorHetPulldownCalculator;
         final Pulldown tumorHetPulldown;
 
-        tumorHetPulldownCalculator = new BayesianHetPulldownCalculator(REFERENCE_ARGUMENTS.getReferenceFile(),
+        tumorHetPulldownCalculator = new BayesianHetPulldownCalculator(REFERENCE_ARGUMENTS.getReferencePath(),
                 IntervalList.fromFile(snpFile), minimumMappingQuality, minimumBaseQuality, readDepthThreshold,
                 VALIDATION_STRINGENCY, errorProbabilityAdjustmentFactor,
                 new HeterogeneousHeterozygousPileupPriorModel(minimumAbnormalFraction, maximumAbnormalFraction,
@@ -335,7 +335,7 @@ public final class GetBayesianHetCoverage extends CommandLineProgram {
         final BayesianHetPulldownCalculator normalHetPulldownCalculator, tumorHetPulldownCalculator;
         final Pulldown normalHetPulldown, tumorHetPulldown;
 
-        normalHetPulldownCalculator = new BayesianHetPulldownCalculator(REFERENCE_ARGUMENTS.getReferenceFile(),
+        normalHetPulldownCalculator = new BayesianHetPulldownCalculator(REFERENCE_ARGUMENTS.getReferencePath(),
                 IntervalList.fromFile(snpFile), minimumMappingQuality, minimumBaseQuality, readDepthThreshold,
                 VALIDATION_STRINGENCY, errorProbabilityAdjustmentFactor,
                 new BalancedHeterozygousPileupPriorModel());
@@ -346,7 +346,7 @@ public final class GetBayesianHetCoverage extends CommandLineProgram {
         logger.info("Writing Het pulldown from normal reads to " + normalHetOutputFile.toString());
         normalHetPulldown.write(normalHetOutputFile, AllelicCountTableColumn.AllelicCountTableVerbosity.FULL);
 
-        tumorHetPulldownCalculator = new BayesianHetPulldownCalculator(REFERENCE_ARGUMENTS.getReferenceFile(),
+        tumorHetPulldownCalculator = new BayesianHetPulldownCalculator(REFERENCE_ARGUMENTS.getReferencePath(),
                 normalHetPulldown.getIntervals(), minimumMappingQuality, minimumBaseQuality, readDepthThreshold,
                 VALIDATION_STRINGENCY, errorProbabilityAdjustmentFactor,
                 new BalancedHeterozygousPileupPriorModel());

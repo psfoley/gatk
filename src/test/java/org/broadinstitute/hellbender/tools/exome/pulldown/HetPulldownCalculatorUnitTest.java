@@ -4,6 +4,8 @@ import htsjdk.samtools.*;
 import htsjdk.samtools.util.Interval;
 import htsjdk.samtools.util.IntervalList;
 import htsjdk.samtools.util.SamLocusIterator;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.broadinstitute.hellbender.GATKBaseTest;
 import org.broadinstitute.hellbender.exceptions.UserException;
 import org.broadinstitute.hellbender.tools.exome.alleliccount.AllelicCount;
@@ -30,12 +32,12 @@ public final class HetPulldownCalculatorUnitTest extends GATKBaseTest {
     private static final File NORMAL_UNSORTED_BAM_FILE = new File(TEST_SUB_DIR, "normal.unsorted.bam");
     private static final File TUMOR_BAM_FILE = new File(TEST_SUB_DIR, "tumor.sorted.bam");
     private static final File SNP_FILE = new File(TEST_SUB_DIR, "common_SNP.interval_list");
-    private static final File REF_FILE = new File(hg19MiniReference);
+    private static final Path REF_PATH = Paths.get(hg19MiniReference);
 
     private static final int MINIMUM_MAPPING_QUALITY = 30;
     private static final int MINIMUM_BASE_QUALITY = 20;
 
-    private static final HetPulldownCalculator calculator = new HetPulldownCalculator(REF_FILE, SNP_FILE,
+    private static final HetPulldownCalculator calculator = new HetPulldownCalculator(REF_PATH, SNP_FILE,
             MINIMUM_MAPPING_QUALITY, MINIMUM_BASE_QUALITY, ValidationStringency.STRICT);
 
     private static SAMFileHeader normalHeader;

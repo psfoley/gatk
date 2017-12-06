@@ -5,6 +5,8 @@ import htsjdk.samtools.SamReader;
 import htsjdk.samtools.SamReaderFactory;
 import htsjdk.samtools.ValidationStringency;
 import htsjdk.samtools.util.IntervalList;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.broadinstitute.hellbender.GATKBaseTest;
 import org.broadinstitute.hellbender.exceptions.UserException;
 import org.broadinstitute.hellbender.tools.exome.alleliccount.AllelicCount;
@@ -38,7 +40,7 @@ public final class BayesianHetPulldownCalculatorUnitTest extends GATKBaseTest {
     /*****************************************************************************************************************/
 
     private static final File SNP_FILE = new File(TEST_SUB_DIR, "common_SNP.interval_list");
-    private static final File REF_FILE = new File(hg19MiniReference);
+    private static final Path REF_PATH = Paths.get(hg19MiniReference);
     private static final File NORMAL_BAM_FILE = new File(TEST_SUB_DIR, "normal.sorted.bam");
     private static final File TUMOR_BAM_FILE = new File(TEST_SUB_DIR, "tumor.sorted.bam");
 
@@ -81,7 +83,7 @@ public final class BayesianHetPulldownCalculatorUnitTest extends GATKBaseTest {
 
     @BeforeClass
     public void initHetPulldownCalculator() {
-        calculator = new BayesianHetPulldownCalculator(REF_FILE, IntervalList.fromFile(SNP_FILE),
+        calculator = new BayesianHetPulldownCalculator(REF_PATH, IntervalList.fromFile(SNP_FILE),
                 MINIMUM_MAPPING_QUALITY, MINIMUM_BASE_QUALITY, READ_DEPTH_THRESHOLD,
                 ValidationStringency.STRICT, ERROR_PROBABILITY_ADJUSTMENT_FACTOR,
                 new HeterogeneousHeterozygousPileupPriorModel(MIN_ABNORMAL_FRACTION, MAX_ABNORMAL_FRACTION,

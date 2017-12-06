@@ -142,7 +142,7 @@ public final class GetHetCoverage extends CommandLineProgram {
             doTumorPulldown = false;
         }
 
-        final HetPulldownCalculator hetPulldown = new HetPulldownCalculator(REFERENCE_ARGUMENTS.getReferenceFile(),
+        final HetPulldownCalculator hetPulldown = new HetPulldownCalculator(REFERENCE_ARGUMENTS.getReferencePath(),
                 snpFile, minimumMappingQuality, minimumBaseQuality, VALIDATION_STRINGENCY);
 
         logger.info("Getting normal het pulldown...");

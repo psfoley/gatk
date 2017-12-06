@@ -5,9 +5,11 @@ import htsjdk.samtools.*;
 import htsjdk.samtools.filter.DuplicateReadFilter;
 import htsjdk.samtools.filter.SamRecordFilter;
 import htsjdk.samtools.filter.SecondaryAlignmentFilter;
+import htsjdk.samtools.reference.ReferenceSequenceFileFactory;
 import htsjdk.samtools.reference.ReferenceSequenceFileWalker;
 import htsjdk.samtools.util.IntervalList;
 import htsjdk.samtools.util.SamLocusIterator;
+import java.nio.file.Path;
 import org.apache.commons.math3.stat.inference.AlternativeHypothesis;
 import org.apache.commons.math3.stat.inference.BinomialTest;
 import org.apache.logging.log4j.LogManager;
@@ -33,7 +35,7 @@ public final class HetPulldownCalculator {
 
     private final Logger logger = LogManager.getLogger(HetPulldownCalculator.class);
 
-    private final File refFile;
+    private final Path refPath;
     private final IntervalList snpIntervals;
 
     private final int minMappingQuality;
@@ -50,18 +52,18 @@ public final class HetPulldownCalculator {
      * Constructs a {@link HetPulldownCalculator} object for calculating {@link Pulldown} objects from files
      * containing a reference genome and an interval list of common SNP sites.  Reads and bases below the specified
      * mapping quality and base quality, respectively, are filtered out of the pileup.
-     * @param refFile           file containing the reference
+     * @param refPath           file containing the reference
      * @param snpFile           file containing the interval list of common SNP sites
      * @param minMappingQuality minimum mapping quality required for reads to be included in pileup
      * @param minBaseQuality    minimum base quality required for bases to be included in pileup
      * @param validationStringency  validation stringency to use for reading BAM files
      */
-    public HetPulldownCalculator(final File refFile, final File snpFile,
+    public HetPulldownCalculator(final Path refPath, final File snpFile,
                                  final int minMappingQuality, final int minBaseQuality,
                                  final ValidationStringency validationStringency) {
         ParamUtils.isPositiveOrZero(minMappingQuality, "Minimum mapping quality must be nonnegative.");
         ParamUtils.isPositiveOrZero(minBaseQuality, "Minimum base quality must be nonnegative.");
-        this.refFile = refFile;
+        this.refPath = refPath;
         snpIntervals = IntervalList.fromFile(snpFile);
         this.minMappingQuality = minMappingQuality;
         this.minBaseQuality = minBaseQuality;
@@ -168,8 +170,9 @@ public final class HetPulldownCalculator {
     private Pulldown getHetPulldown(final File bamFile, final IntervalList snpIntervals, final SampleType sampleType,
                                     final double pvalThreshold, final int minimumRawReads) {
         try (final SamReader bamReader = SamReaderFactory.makeDefault().validationStringency(validationStringency)
-                .referenceSequence(refFile).open(bamFile);
-             final ReferenceSequenceFileWalker refWalker = new ReferenceSequenceFileWalker(refFile)) {
+                .referenceSequence(refPath).open(bamFile);
+            final ReferenceSequenceFileWalker refWalker = new ReferenceSequenceFileWalker(
+                    ReferenceSequenceFileFactory.getReferenceSequenceFile(refPath, true, false))) {
             if (bamReader.getFileHeader().getSortOrder() != SAMFileHeader.SortOrder.coordinate) {
                 throw new UserException.BadInput("BAM file " + bamFile.toString() + " must be coordinate sorted.");
             }

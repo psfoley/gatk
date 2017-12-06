@@ -6,9 +6,11 @@ import htsjdk.samtools.*;
 import htsjdk.samtools.filter.DuplicateReadFilter;
 import htsjdk.samtools.filter.SamRecordFilter;
 import htsjdk.samtools.filter.SecondaryAlignmentFilter;
+import htsjdk.samtools.reference.ReferenceSequenceFileFactory;
 import htsjdk.samtools.reference.ReferenceSequenceFileWalker;
 import htsjdk.samtools.util.IntervalList;
 import htsjdk.samtools.util.SamLocusIterator;
+import java.nio.file.Path;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.logging.log4j.LogManager;
@@ -57,7 +59,7 @@ public final class BayesianHetPulldownCalculator {
 
     private static final Nucleotide[] PROPER_BASES = {Nucleotide.A, Nucleotide.C, Nucleotide.T, Nucleotide.G};
 
-    private final File refFile;
+    private final Path refPath;
     private final IntervalList snpIntervals;
 
     private final int readDepthThreshold;
@@ -78,7 +80,7 @@ public final class BayesianHetPulldownCalculator {
     /**
      * Constructor of {@link BayesianHetPulldownCalculator} object
      *
-     * @param refFile the reference genome file
+     * @param refPath the reference genome file
      * @param snpIntervals {@link IntervalList} of common SNPs
      * @param minMappingQuality minimum phred mapping quality
      * @param minBaseQuality minimum phred base quality
@@ -88,7 +90,7 @@ public final class BayesianHetPulldownCalculator {
      *                                         probabilities
      * @param hetPrior the prior model for heterzygous pileups
      */
-    public BayesianHetPulldownCalculator(final File refFile, final IntervalList snpIntervals,
+    public BayesianHetPulldownCalculator(final Path refPath, final IntervalList snpIntervals,
                                          final int minMappingQuality, final int minBaseQuality,
                                          final int readDepthThreshold, final ValidationStringency validationStringency,
                                          final double errorProbabilityAdjustmentFactor,
@@ -96,7 +98,7 @@ public final class BayesianHetPulldownCalculator {
         ParamUtils.isPositiveOrZero(minMappingQuality, "Minimum mapping quality must be nonnegative.");
         ParamUtils.isPositiveOrZero(minBaseQuality, "Minimum base quality must be nonnegative.");
 
-        this.refFile = Utils.nonNull(refFile);
+        this.refPath = Utils.nonNull(refPath);
         this.snpIntervals = Utils.nonNull(snpIntervals);
         this.minMappingQuality = ParamUtils.isPositive(minMappingQuality, "Minimum mapping quality must be a positive integer");
         this.minBaseQuality = ParamUtils.isPositive(minBaseQuality, "Minimum base quality must be a positive integer");
@@ -324,8 +326,9 @@ public final class BayesianHetPulldownCalculator {
         final double hetThresholdLogOdds = FastMath.log(FastMath.pow(10, hetCallingStringency) - 1);
 
         try (final SamReader bamReader = SamReaderFactory.makeDefault().validationStringency(validationStringency)
-                .referenceSequence(refFile).open(bamFile);
-             final ReferenceSequenceFileWalker refWalker = new ReferenceSequenceFileWalker(refFile)) {
+                .referenceSequence(refPath).open(bamFile);
+             final ReferenceSequenceFileWalker refWalker = new ReferenceSequenceFileWalker(
+                     ReferenceSequenceFileFactory.getReferenceSequenceFile(refPath, true, false))) {
             if (bamReader.getFileHeader().getSortOrder() != SAMFileHeader.SortOrder.coordinate) {
                 throw new UserException.BadInput("BAM file " + bamFile.toString() + " must be coordinate sorted.");
             }
@@ -396,7 +399,7 @@ public final class BayesianHetPulldownCalculator {
      */
     public Pulldown getTumorHetPulldownFromNormalPulldown(final File tumorBamFile, final Pulldown normalHetPulldown) {
         try (final SamReader bamReader = SamReaderFactory.makeDefault().validationStringency(validationStringency)
-                .referenceSequence(refFile).open(tumorBamFile)) {
+                .referenceSequence(refPath).open(tumorBamFile)) {
             if (bamReader.getFileHeader().getSortOrder() != SAMFileHeader.SortOrder.coordinate) {
                 throw new UserException.BadInput("BAM file " + tumorBamFile.toString() + " must be coordinate sorted.");
             }
