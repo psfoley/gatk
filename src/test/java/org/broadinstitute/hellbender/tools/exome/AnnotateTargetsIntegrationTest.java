@@ -7,6 +7,7 @@ import htsjdk.tribble.Tribble;
 import htsjdk.tribble.index.Index;
 import htsjdk.tribble.index.IndexFactory;
 import htsjdk.tribble.util.LittleEndianOutputStream;
+import java.nio.file.Path;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.broadinstitute.hellbender.CommandLineProgramTest;
@@ -17,6 +18,7 @@ import org.broadinstitute.hellbender.engine.ReferenceFileSource;
 import org.broadinstitute.hellbender.exceptions.UserException;
 import org.broadinstitute.hellbender.utils.SimpleInterval;
 import org.broadinstitute.hellbender.utils.codecs.TargetCodec;
+import org.broadinstitute.hellbender.utils.io.IOUtils;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -39,7 +41,7 @@ import java.util.stream.Stream;
  */
 public class AnnotateTargetsIntegrationTest extends CommandLineProgramTest {
 
-    private static final File REFERENCE = new File(GATKBaseTest.hg19MiniReference);
+    private static final Path REFERENCE = IOUtils.getPath(GATKBaseTest.hg19MiniReference);
 
     // Test meta-parameters:
     private static final int MIN_TARGET_SIZE = 10;
@@ -341,7 +343,7 @@ public class AnnotateTargetsIntegrationTest extends CommandLineProgramTest {
     }
 
     private Collection<? extends String> gcContentDependenciesArguments() {
-        return Arrays.asList("-" + StandardArgumentDefinitions.REFERENCE_SHORT_NAME, REFERENCE.getPath());
+        return Arrays.asList("-" + StandardArgumentDefinitions.REFERENCE_SHORT_NAME, REFERENCE.toAbsolutePath().toString());
     }
 
     private Collection<? extends String> baitCountDependenciesArguments() {
