@@ -25,9 +25,10 @@ import java.util.stream.Collectors;
  * Filter SNVs and indels from a Mutect2 callset.
  *
  * <p>
- *     FilterMutectCalls encapsulates GATK3 MuTect2's filtering functionality.
+ *     FilterMutectCalls encapsulates GATK3 MuTect2's filtering functionality and adds additional filters.
  *     GATK4 Mutect2 retains variant calling and some prefiltering.
- *     Separating calling and filtering functionalities into two tools better enables an iterative filtering process
+ *     Thresholds for filters are contained in {@link M2FiltersArgumentCollection} and described in docs/mutect/mutect.pdf.
+ *     Separating calling and filtering into two tools better enables an iterative filtering process
  *     that allows for context-specific optimizations. To filter further based on sequence context artifacts,
  *     additionally use {@link FilterByOrientationBias}.
  * </p>
@@ -45,13 +46,22 @@ import java.util.stream.Collectors;
  *     filter on contamination fractions. Alternatively, provide a numerical fraction to filter with --contamination_fraction_to_filter.
  * </p>
  *
- * <h3>Example</h3>
+ * <h3>Input</h3>
+ * <p>
+ * VCF of unfiltered Mutect2 SNV and indel calls.
+ * </p>
  *
+ * <h3>Output</h3>
+ * <p>
+ * A VCF of filtered SNV and indel calls.
+ * </p>
+ *
+ * <h3>Example</h3>
  * <pre>
  * gatk-launch --javaOptions "-Xmx4g" FilterMutectCalls \
- *   -V tumor_matched_m2_snvs_indels.vcf.gz \
+ *   -V unfiltered.vcf \
  *   -contaminationTable contamination.table \
- *   -O tumor_matched_m2_filtered.vcf.gz
+ *   -O filtered.vcf
  * </pre>
  *
  */

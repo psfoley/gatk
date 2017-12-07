@@ -32,18 +32,33 @@ import java.util.stream.IntStream;
  *     The resulting contamination table is used with {@link FilterMutectCalls}.
  * </p>
  *
- * <p>This tool and GetPileupSummaries together replace GATK3's ContEst.</p>
+ * <p>This tool and GetPileupSummaries together replace GATK3's ContEst.  Like ContEst, this tool estimates contamination based on the signal
+ * from ref reads at hom alt sites.  However, ContEst uses a probabilistic model that assumes a diploid genotype with no copy number
+ * variation and independent contaminating reads.  That is, ContEst assumes that each contaminating read is drawn randomly and
+ * independently from a different human.  This tool uses a simpler estimate of contamination that relaxes these assumptions.  In particular,
+ * it works in the presence of copy number variations and with an arbitrary number of contaminating samples.  In addition, this tool
+ * is designed to work well with no matched normal data.  However, one can run {@link GetPileupSummaries} on a matched normal bam file
+ * and input the result to this tool.</p>
  *
  * <p>
  *     The resulting table provides the fraction contamination, one line per sample, e.g. SampleID--TAB--Contamination.
  *     The file has no header.
  * </p>
  *
- * <h3>Example</h3>
+ * <h3>Example: tumor-only mode</h3>
  *
  * <pre>
  * gatk-launch --javaOptions "-Xmx4g" CalculateContamination \
  *   -I pileups.table \
+ *   -O contamination.table
+ * </pre> *
+ *
+ * <h3>Example: matched normal mode</h3>
+ *
+ * <pre>
+ * gatk-launch --javaOptions "-Xmx4g" CalculateContamination \
+ *   -I tumor-pileups.table \
+ *   -matched normal-pileups.table \
  *   -O contamination.table
  * </pre>
  *

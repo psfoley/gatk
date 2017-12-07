@@ -14,9 +14,12 @@ import java.util.List;
 import java.util.OptionalInt;
 
 /**
- * Median distance of variant starts from ends of reads supporting each allele.
+ * Median distance of variant starts from ends of reads supporting each alt allele.
  *
- * Created by David Benjamin on 3/20/17.
+ * </p>The output is an array containing, for each alt allele, the median distance of the variant start from the closest read end over all reads that best match that allele.</p>
+ * </p>For example, for variant context with ref allele A and alt allele C the read position for alt-supporting read GGGGCTT is 2.
+ * For variant context with ref allele AG and alt allele A (deletion) the read position of alt-supporting read ATTTTT is 0.
+ * For variant context with ref allele A and alt allele AG (insertion) the read position of alt-supporting read TTTTAG is 1.</p>
  */
 @DocumentedFeature(groupName=HelpConstants.DOC_CAT_ANNOTATORS, groupSummary=HelpConstants.DOC_CAT_ANNOTATORS_SUMMARY, summary="Median distance of variant starts from ends of reads supporting each allele (MPOS)")
 public class ReadPosition extends PerAlleleAnnotation implements StandardMutectAnnotation {

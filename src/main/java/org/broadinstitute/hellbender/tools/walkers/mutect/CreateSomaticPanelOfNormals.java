@@ -87,7 +87,8 @@ import java.util.stream.StreamSupport;
  *
  *  <p>The tool also accepts multiple .list files. Pass each in with the -vcfs option.</p>
  *
- * @author David Benjamin &lt;davidben@brgoadinstitute.org&gt;
+ *  <p>See documentation for {@link Mutect2} for examples of using a PoN.</p>
+ *
  */
 @CommandLineProgramProperties(
         summary = "Make a panel of normals (PoN) for use with Mutect2",

@@ -28,25 +28,25 @@ import java.util.List;
  *     The caller combines the DREAM challenge-winning somatic genotyping engine of the original MuTect
  *     (<a href='http://www.nature.com/nbt/journal/v31/n3/full/nbt.2514.html'>Cibulskis et al., 2013</a>) with the
  *     assembly-based machinery of <a href="https://www.broadinstitute.org/gatk/documentation/tooldocs/org_broadinstitute_gatk_tools_walkers_haplotypecaller_HaplotypeCaller.php">HaplotypeCaller</a>.
- *     Although we present the tool for somatic analyses, it may also apply to other contexts.
+ *     Although we present the tool for somatic analyses, it may also apply to other contexts, such as mitochondrial variant calling.
  * </p>
  *
  * <h3>How GATK4 Mutect2 differs from GATK3 MuTect2</h3>
  *
  * <dl>
  *     <dd>(i) The filtering functionality is now a separate tool called {@link FilterMutectCalls}.
- *     To filter further based on sequence context artifacts, additionally use {@link FilterByOrientationBias}.</dd>
+ *     To filter further based on sequence context artifacts, additionally use {@link org.broadinstitute.hellbender.tools.exome.FilterByOrientationBias}.</dd>
  *     <dd>(ii) If using a known germline variants resource, then it must contain population allele frequencies, e.g.
  *     from gnomAD or the 1000 Genomes Project. The VCF INFO field contains the allele frequency (AF) tag.
  *     See below or the GATK Resource Bundle for an example.</dd>
  *     <dd>(iii) To create the panel of normals (PoN), call on each normal sample using Mutect2's tumor-only mode and then use GATK4's {@link CreateSomaticPanelOfNormals}.
  *     This contrasts with the GATK3 workflow, which uses an artifact mode in MuTect2 and CombineVariants for PoN creation.
  *     In GATK4, omitting filtering with FilterMutectCalls achieves the same artifact mode.</dd>
- *     <dd>(iv) Instead of using a maximum likelihood estimate, GATK4 Mutect2 marginalizes over allele fractions. 
+ *     <dd>(iv) Instead of using a maximum likelihood estimate, GATK4 Mutect2 marginalizes over allele fractions in its Bayesian likelihoods model.  See docs/mutect/mutect.pdf for details.
  *     GATK3 MuTect2 directly uses allele depths (AD) to estimate allele fractions and calculate likelihoods. In contrast, GATK4 Mutect2
  *     factors for the statistical error inherent in allele depths by marginalizing over allele fractions when calculating likelihoods.</dd>
- *     <dd>(v) GATK4 Mutect2 recommends including contamination estimates with the -contaminationFile option from {@link CalculateContamination}, 
- *     which in turn relies on the results of {@link GetPileupSummaries}.</dd>
+ *     <dd>(v) GATK4 Mutect2 recommends including contamination estimates with the -contaminationFile option from {@link org.broadinstitute.hellbender.tools.walkers.contamination.CalculateContamination},
+ *     which in turn relies on the results of {@link org.broadinstitute.hellbender.tools.walkers.contamination.GetPileupSummaries}.</dd>
  * </dl>
  *
  * <p>
@@ -72,17 +72,19 @@ import java.util.List;
  * <h3>How Mutect2 works compared to HaplotypeCaller</h3>
  * <p>Overall, Mutect2 works similarly to HaplotypeCaller, but with a few key differences. </p>
  * <p>
- *     (i) GVCF calling is not a feature of Mutect2.
- *     (ii) While HaplotypeCaller relies on a fixed ploidy assumption to inform its genotype likelihoods that are the basis for genotype probabilities (PL),
- *     Mutect2 allows for varying ploidy in the form of allele fractions for each variant.
+ *     <dl>
+ *     <dd>(i) GVCF calling is not a feature of Mutect2.</dd>
+ *     <dd>(ii) While HaplotypeCaller relies on a fixed ploidy assumption to inform its genotype likelihoods that are the basis for genotype probabilities (PL),
+ *     Mutect2 allows for varying ploidy in the form of allele fractions for each variant.</dd>
  *     Varying allele fractions is often seen within a tumor sample due to fractional purity, multiple subclones and/or copy number variation.
- *     (iii) Mutect2 also differs from the HaplotypeCaller in that it can apply various prefilters to sites and variants depending on the use of
+ *     <dd>(iii) Mutect2 also differs from the HaplotypeCaller in that it can apply various prefilters to sites and variants depending on the use of
  *     a matched normal (--normalSampleName), a panel of normals (PoN; --normal_panel) and/or a common population variant resource containing allele-specific frequencies (--germline_resource).
- *     If provided, Mutect2 uses the PoN to filter sites and the germline resource and matched normal to filter alleles.
- *     (iv) Mutect2's default variant site annotations differ from those of HaplotypeCaller. See the --annotation parameter description for a list.
- *     (v) Finally, Mutect2 has additional parameters not available to HaplotypeCaller that factor in the decision to reassemble a genomic region,
+ *     If provided, Mutect2 uses the PoN to filter sites and the germline resource and matched normal to filter alleles.</dd>
+ *     <dd>(iv) Mutect2's default variant site annotations differ from those of HaplotypeCaller. See the --annotation parameter description for a list.</dd>
+ *     <dd>(v) Finally, Mutect2 has additional parameters not available to HaplotypeCaller that factor in the decision to reassemble a genomic region,
  *     factor in likelihood calculations that then determine whether to emit a variant, or factor towards filtering.
- *     These parameters include the following and are each described further in the arguments section.
+ *     These parameters include the following and are each described further in the arguments section.</dd>
+ *     </dl>
  * </p>
  *
  * <dl>
@@ -172,8 +174,8 @@ import java.util.List;
  *
  * <h3>Caveats</h3>
  * <p>
- *     Although GATK4 Mutect2 is optimized to accomodate varying coverage depths, further optimization of parameters
- *     is necessary for extreme high depths, e.g. 1000X.
+ *     Although GATK4 Mutect2 accomodates varying coverage depths, further optimization of parameters
+ *     may improve calling for extreme high depths, e.g. 1000X.
  * </p>
  */
  @CommandLineProgramProperties(
