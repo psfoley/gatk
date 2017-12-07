@@ -94,9 +94,9 @@ import java.util.stream.Collectors;
 public class FilterByOrientationBias extends VariantWalker {
 
     public static final String PRE_ADAPTER_METRICS_DETAIL_FILE_SHORT_NAME = "P";
-    public static final String PRE_ADAPTER_METRICS_DETAIL_FILE_FULL_NAME = "preAdapterDetailFile";
+    public static final String PRE_ADAPTER_METRICS_DETAIL_FILE_FULL_NAME = "pre-adapter-detail-file";
     public static final String ARTIFACT_MODES_SHORT_NAME = "AM";
-    public static final String ARTIFACT_MODES_FULL_NAME = "artifactModes";
+    public static final String ARTIFACT_MODES_FULL_NAME = "artifact-modes";
 
     public static final String DEFAULT_ARTIFACT_MODE = "G/T";
     public static final String SUMMARY_FILE_SUFFIX = ".summary";

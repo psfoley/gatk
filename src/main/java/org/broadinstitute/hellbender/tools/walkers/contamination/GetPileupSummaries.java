@@ -54,10 +54,10 @@ import java.util.List;
 @DocumentedFeature
 public class GetPileupSummaries extends MultiVariantWalker {
 
-    public final String MAX_SITE_AF_LONG_NAME = "maximumPopulationAlleleFrequency";
-    public final String MIN_SITE_AF_LONG_NAME = "minimumPopulationAlleleFrequency";
-    public final String MAX_SITE_AF_SHORT_NAME = "maxAF";
-    public final String MIN_SITE_AF_SHORT_NAME = "minAF";
+    public static final String MAX_SITE_AF_LONG_NAME = "maximum-population-allele-frequency";
+    public static final String MIN_SITE_AF_LONG_NAME = "minimum-population-allele-frequency";
+    public static final String MAX_SITE_AF_SHORT_NAME = "max-af";
+    public static final String MIN_SITE_AF_SHORT_NAME = "min-af";
 
     private static final double DEFAULT_MIN_POPULATION_AF = 0.01;
     private static final double DEFAULT_MAX_POPULATION_AF = 0.2;

@@ -91,8 +91,10 @@ public class CalculateContamination extends CommandLineProgram {
             doc="The input table")
     private File inputPileupSummariesTable;
 
-    @Argument(fullName = "matchedNormal",
-            shortName = "matched",
+    public static final String MATCHED_NORMAL_LONG_NAME = "matched-normal";
+    public static final String MATCHED_NORMAL_SHORT_NAME = "matched";
+    @Argument(fullName = MATCHED_NORMAL_LONG_NAME,
+            shortName = MATCHED_NORMAL_SHORT_NAME,
             doc="The matched normal input table", optional = true)
     private File matchedPileupSummariesTable = null;
 
@@ -101,11 +103,13 @@ public class CalculateContamination extends CommandLineProgram {
             doc="The output table")
     private final File outputTable = null;
 
-    @Argument(fullName= "lowCoverageRatioThreshold",
+    public static final String LOW_COVERAGE_RATIO_THRESHOLD_NAME = "low-coverage-ratio-threshold";
+    @Argument(fullName = LOW_COVERAGE_RATIO_THRESHOLD_NAME,
             doc="The minimum coverage relative to the median.", optional = true)
     private final double lowCoverageRatioThreshold = DEFAULT_LOW_COVERAGE_RATIO_THRESHOLD;
 
-    @Argument(fullName= "highCoverageRatioThreshold",
+    public static final String HIGH_COVERAGE_RATIO_THRESHOLD_NAME = "high-coverage-ratio-threshold";
+    @Argument(fullName= HIGH_COVERAGE_RATIO_THRESHOLD_NAME,
             doc="The maximum coverage relative to the median.", optional = true)
     private final double highCoverageRatioThreshold = DEFAULT_HIGH_COVERAGE_RATIO_THRESHOLD;
     
