@@ -57,12 +57,11 @@ public final class CollectFragmentCounts extends ReadWalker {
 
     private static final int DEFAULT_MINIMUM_MAPPING_QUALITY = 30;
 
-    enum OutputFormat {
+    enum Format {
         TSV, HDF5
     }
 
-    public static final String OUTPUT_FORMAT_LONG_NAME = "outputFormat";
-    public static final String OUTPUT_FORMAT_SHORT_NAME = "fmt";
+    public static final String FORMAT_LONG_NAME = "format";
 
     @Argument(
             doc = "Output fragment-counts file",
@@ -73,11 +72,10 @@ public final class CollectFragmentCounts extends ReadWalker {
 
     @Argument(
             doc = "Output file format.",
-            fullName = OUTPUT_FORMAT_LONG_NAME,
-            shortName = OUTPUT_FORMAT_SHORT_NAME,
+            fullName = FORMAT_LONG_NAME,
             optional = true
     )
-    private OutputFormat outputFormat = OutputFormat.HDF5;
+    private Format format = Format.HDF5;
 
     /**
      * Metadata contained in the BAM file.
@@ -163,7 +161,7 @@ public final class CollectFragmentCounts extends ReadWalker {
                         .map(i -> new SimpleCount(i, intervalMultiset.count(i)))
                         .collect(Collectors.toList()));
 
-        if (outputFormat == OutputFormat.HDF5) {
+        if (format == Format.HDF5) {
             fragmentCounts.writeHDF5(outputCountsFile);
         } else {
             fragmentCounts.write(outputCountsFile);

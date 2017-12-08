@@ -36,14 +36,9 @@ import java.io.File;
 @DocumentedFeature
 @BetaFeature
 public final class CallCopyRatioSegments extends CommandLineProgram {
-    public static final String NEUTRAL_SEGMENT_COPY_RATIO_THRESHOLD_LONG_NAME = "neutralSegmentCopyRatioThreshold";
-    public static final String NEUTRAL_SEGMENT_COPY_RATIO_THRESHOLD_SHORT_NAME = "neutralTh";
-
-    public static final String OUTLIER_NEUTRAL_SEGMENT_COPY_RATIO_Z_SCORE_THRESHOLD_LONG_NAME = "outlierNeutralSegmentCopyRatioZScoreThreshold";
-    public static final String OUTLIER_NEUTRAL_SEGMENT_COPY_RATIO_Z_SCORE_THRESHOLD_SHORT_NAME = "outlierTh";
-
-    public static final String CALLING_COPY_RATIO_Z_SCORE_THRESHOLD_LONG_NAME = "callingCopyRatioZScoreThreshold";
-    public static final String CALLING_COPY_RATIO_Z_SCORE_THRESHOLD_SHORT_NAME = "callingTh";
+    public static final String NEUTRAL_SEGMENT_COPY_RATIO_THRESHOLD_LONG_NAME = "neutral-segment-copy-ratio-threshold";
+    public static final String OUTLIER_NEUTRAL_SEGMENT_COPY_RATIO_Z_SCORE_THRESHOLD_LONG_NAME = "outlier-neutral-segment-copy-ratio-z-score-threshold";
+    public static final String CALLING_COPY_RATIO_Z_SCORE_THRESHOLD_LONG_NAME = "calling-copy-ratio-z-score-threshold";
 
     @Argument(
             doc = "Input file containing copy-ratio segments (.cr.seg output of ModelSegments).",
@@ -63,7 +58,6 @@ public final class CallCopyRatioSegments extends CommandLineProgram {
             doc = "Threshold on non-log2 copy ratio used for determining copy-neutral segments.  " +
                     "If non-log2 copy ratio is within 1 +/- this threshold, a segment is considered copy-neutral.",
             fullName = NEUTRAL_SEGMENT_COPY_RATIO_THRESHOLD_LONG_NAME,
-            shortName = NEUTRAL_SEGMENT_COPY_RATIO_THRESHOLD_SHORT_NAME,
             optional = true
     )
     private double neutralSegmentCopyRatioThreshold = 0.1;
@@ -74,7 +68,6 @@ public final class CallCopyRatioSegments extends CommandLineProgram {
                     "it is considered an outlier and not used in the calculation of the length-weighted mean and standard deviation " +
                     "used for calling.",
             fullName = OUTLIER_NEUTRAL_SEGMENT_COPY_RATIO_Z_SCORE_THRESHOLD_LONG_NAME,
-            shortName = OUTLIER_NEUTRAL_SEGMENT_COPY_RATIO_Z_SCORE_THRESHOLD_SHORT_NAME,
             optional = true,
             minValue = 0.
     )
@@ -83,7 +76,6 @@ public final class CallCopyRatioSegments extends CommandLineProgram {
     @Argument(
             doc = "Threshold on z-score of non-log2 copy ratio used for calling segments.",
             fullName = CALLING_COPY_RATIO_Z_SCORE_THRESHOLD_LONG_NAME,
-            shortName = CALLING_COPY_RATIO_Z_SCORE_THRESHOLD_SHORT_NAME,
             optional = true,
             minValue = 0.
     )

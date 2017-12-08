@@ -94,8 +94,7 @@ public final class CollectAllelicCounts extends LocusWalker {
 
     private static final int DEFAULT_MINIMUM_MAPPING_QUALITY = 30;
 
-    public static final String MINIMUM_BASE_QUALITY_LONG_NAME = "minimumBaseQuality";
-    public static final String MINIMUM_BASE_QUALITY_SHORT_NAME = "minBQ";
+    public static final String MINIMUM_BASE_QUALITY_LONG_NAME = "minimum-base-quality";
 
     @Argument(
             doc = "Output allelic-counts file.",
@@ -107,7 +106,6 @@ public final class CollectAllelicCounts extends LocusWalker {
     @Argument(
             doc = "Minimum base quality; base calls with lower quality will be filtered out of pileups.",
             fullName = MINIMUM_BASE_QUALITY_LONG_NAME,
-            shortName = MINIMUM_BASE_QUALITY_SHORT_NAME,
             minValue = 0,
             optional = true
     )

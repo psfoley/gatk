@@ -54,15 +54,13 @@ public final class PlotDenoisedCopyRatios extends CommandLineProgram {
 
     @Argument(
             doc = "Input file containing standardized copy-ratio profile (output of DenoiseReadCounts).",
-            fullName = CopyNumberStandardArgument.STANDARDIZED_COPY_RATIOS_FILE_LONG_NAME,
-            shortName = CopyNumberStandardArgument.STANDARDIZED_COPY_RATIOS_FILE_SHORT_NAME
+            fullName = CopyNumberStandardArgument.STANDARDIZED_COPY_RATIOS_FILE_LONG_NAME
     )
     private File inputStandardizedCopyRatiosFile;
 
     @Argument(
             doc = "Input file containing denoised copy-ratio profile (output of DenoiseReadCounts).",
-            fullName = CopyNumberStandardArgument.DENOISED_COPY_RATIOS_FILE_LONG_NAME,
-            shortName = CopyNumberStandardArgument.DENOISED_COPY_RATIOS_FILE_SHORT_NAME
+            fullName = CopyNumberStandardArgument.DENOISED_COPY_RATIOS_FILE_LONG_NAME
     )
     private File inputDenoisedCopyRatiosFile;
 
@@ -76,15 +74,13 @@ public final class PlotDenoisedCopyRatios extends CommandLineProgram {
     @Argument(
             doc = PlottingUtils.MINIMUM_CONTIG_LENGTH_DOC_STRING,
             fullName =  PlottingUtils.MINIMUM_CONTIG_LENGTH_LONG_NAME,
-            shortName = PlottingUtils.MINIMUM_CONTIG_LENGTH_SHORT_NAME,
             optional = true
     )
     private int minContigLength = PlottingUtils.DEFAULT_MINIMUM_CONTIG_LENGTH;
 
     @Argument(
             doc = "Prefix for output filenames.",
-            fullName =  CopyNumberStandardArgument.OUTPUT_PREFIX_LONG_NAME,
-            shortName = CopyNumberStandardArgument.OUTPUT_PREFIX_SHORT_NAME
+            fullName =  CopyNumberStandardArgument.OUTPUT_PREFIX_LONG_NAME
     )
     private String outputPrefix;
 

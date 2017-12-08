@@ -74,12 +74,12 @@ public final class CreateReadCountPanelOfNormals extends SparkCommandLineProgram
     private static final long serialVersionUID = 1L;
 
     //parameter names
-    public static final String MINIMUM_INTERVAL_MEDIAN_PERCENTILE_LONG_NAME = "minimumIntervalMedianPercentile";
-    public static final String MAXIMUM_ZEROS_IN_SAMPLE_PERCENTAGE_LONG_NAME = "maximumZerosInSamplePercentage";
-    public static final String MAXIMUM_ZEROS_IN_INTERVAL_PERCENTAGE_LONG_NAME = "maximumZerosInIntervalPercentage";
-    public static final String EXTREME_SAMPLE_MEDIAN_PERCENTILE_LONG_NAME = "extremeSampleMedianPercentile";
-    public static final String IMPUTE_ZEROS_LONG_NAME = "doImputeZeros";
-    public static final String EXTREME_OUTLIER_TRUNCATION_PERCENTILE_LONG_NAME = "extremeOutlierTruncationPercentile";
+    public static final String MINIMUM_INTERVAL_MEDIAN_PERCENTILE_LONG_NAME = "minimum-interval-median-percentile";
+    public static final String MAXIMUM_ZEROS_IN_SAMPLE_PERCENTAGE_LONG_NAME = "maximum-zeros-in-sample-percentage";
+    public static final String MAXIMUM_ZEROS_IN_INTERVAL_PERCENTAGE_LONG_NAME = "maximum-zeros-in-interval-percentage";
+    public static final String EXTREME_SAMPLE_MEDIAN_PERCENTILE_LONG_NAME = "extreme-sample-median-percentile";
+    public static final String IMPUTE_ZEROS_LONG_NAME = "do-impute-zeros";
+    public static final String EXTREME_OUTLIER_TRUNCATION_PERCENTILE_LONG_NAME = "extreme-outlier-truncation-percentile";
 
     //default values for filtering
     private static final double DEFAULT_MINIMUM_INTERVAL_MEDIAN_PERCENTILE = 10.0;
@@ -105,7 +105,6 @@ public final class CreateReadCountPanelOfNormals extends SparkCommandLineProgram
                     "If provided, explicit GC correction will be performed before performing SVD.  " +
                     "Intervals must be identical to and in the same order as those in the input read-count files.",
             fullName = CopyNumberStandardArgument.ANNOTATED_INTERVALS_FILE_LONG_NAME,
-            shortName = CopyNumberStandardArgument.ANNOTATED_INTERVALS_FILE_SHORT_NAME,
             optional = true
     )
     private File annotatedIntervalsFile = null;
@@ -183,7 +182,6 @@ public final class CreateReadCountPanelOfNormals extends SparkCommandLineProgram
             doc = "Number of eigensamples to use for truncated SVD and to store in the panel of normals.  " +
                     "The number of samples retained after filtering will be used instead if it is smaller than this.",
             fullName = CopyNumberStandardArgument.NUMBER_OF_EIGENSAMPLES_LONG_NAME,
-            shortName = CopyNumberStandardArgument.NUMBER_OF_EIGENSAMPLES_SHORT_NAME,
             minValue = 1,
             optional = true
     )

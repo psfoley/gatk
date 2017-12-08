@@ -53,67 +53,36 @@ public final class ModelSegments extends CommandLineProgram {
     public static final String ALLELE_FRACTION_MODEL_PARAMETER_FILE_SUFFIX = ".af.param";
     public static final String COPY_RATIO_SEGMENTS_FOR_CALLER_FILE = ".cr" + SEGMENTS_FILE_SUFFIX;
 
-    public static final String MAXIMUM_NUMBER_OF_SEGMENTS_PER_CHROMOSOME_LONG_NAME = "maxNumSegmentsPerChromosome";
-    public static final String MAXIMUM_NUMBER_OF_SEGMENTS_PER_CHROMOSOME_SHORT_NAME = "maxNumSegsPerChr";
+    //het genotyping argument names
+    public static final String MINIMUM_TOTAL_ALLELE_COUNT_LONG_NAME = "minimum-total-allele-count";
+    public static final String GENOTYPING_HOMOZYGOUS_LOG_RATIO_THRESHOLD_LONG_NAME = "genotyping-homozygous-log-ratio-threshold";
+    public static final String GENOTYPING_BASE_ERROR_RATE_LONG_NAME = "genotyping-base-error-rate";
 
-    public static final String MINIMUM_TOTAL_ALLELE_COUNT_LONG_NAME = "minTotalAlleleCount";
-    public static final String MINIMUM_TOTAL_ALLELE_COUNT_SHORT_NAME = "minAC";
+    //segmentation argument names
+    public static final String MAXIMUM_NUMBER_OF_SEGMENTS_PER_CHROMOSOME_LONG_NAME = "maximum-number-of-segments-per-chromosome";
+    public static final String KERNEL_VARIANCE_COPY_RATIO_LONG_NAME = "kernel-variance-copy-ratio";
+    public static final String KERNEL_VARIANCE_ALLELE_FRACTION_LONG_NAME = "kernel-variance-allele-fraction";
+    public static final String KERNEL_SCALING_ALLELE_FRACTION_LONG_NAME = "kernel-scaling-allele-fraction";
+    public static final String KERNEL_APPROXIMATION_DIMENSION_LONG_NAME = "kernel-approximation-dimension";
+    public static final String WINDOW_SIZE_LONG_NAME = "window-size";
+    public static final String NUMBER_OF_CHANGEPOINTS_PENALTY_FACTOR_LONG_NAME = "number-of-changepoints-penalty-factor";
 
-    public static final String GENOTYPING_HOMOZYGOUS_LOG_RATIO_THRESHOLD_LONG_NAME = "genotypingHomozygousLogRatioThreshold";
-    public static final String GENOTYPING_HOMOZYGOUS_LOG_RATIO_THRESHOLD_SHORT_NAME = "homLRT";
+    //MCMC argument names
+    public static final String MINOR_ALLELE_FRACTION_PRIOR_ALPHA_LONG_NAME = "minor-allele-fraction-prior-alpha";
+    public static final String NUMBER_OF_SAMPLES_COPY_RATIO_LONG_NAME = "number-of-samples-copy-ratio";
+    public static final String NUMBER_OF_BURN_IN_SAMPLES_COPY_RATIO_LONG_NAME = "number-of-burn-in-samples-copy-ratio";
+    public static final String NUM_SAMPLES_ALLELE_FRACTION_LONG_NAME = "number-of-samples-allele-fraction";
+    public static final String NUM_BURN_IN_ALLELE_FRACTION_LONG_NAME = "number-of-burn-in-samples-allele-fraction";
 
-    public static final String GENOTYPING_BASE_ERROR_RATE_LONG_NAME = "genotypingBaseErrorRate";
-    public static final String GENOTYPING_BASE_ERROR_RATE_SHORT_NAME = "baseErrRate";
-
-    public static final String KERNEL_VARIANCE_COPY_RATIO_LONG_NAME = "kernelVarianceCopyRatio";
-    public static final String KERNEL_VARIANCE_COPY_RATIO_SHORT_NAME = "kernVarCR";
-
-    public static final String KERNEL_VARIANCE_ALLELE_FRACTION_LONG_NAME = "kernelVarianceAlleleFraction";
-    public static final String KERNEL_VARIANCE_ALLELE_FRACTION_SHORT_NAME = "kernVarAF";
-
-    public static final String KERNEL_SCALING_ALLELE_FRACTION_LONG_NAME = "kernelScalingAlleleFraction";
-    public static final String KERNEL_SCALING_ALLELE_FRACTION_SHORT_NAME = "kernSclAF";
-
-    public static final String KERNEL_APPROXIMATION_DIMENSION_LONG_NAME = "kernelApproximationDimension";
-    public static final String KERNEL_APPROXIMATION_DIMENSION_SHORT_NAME = "kernApproxDim";
-
-    public static final String WINDOW_SIZE_LONG_NAME = "windowSize";
-    public static final String WINDOW_SIZE_SHORT_NAME = "winSize";
-
-    public static final String NUM_CHANGEPOINTS_PENALTY_FACTOR_LONG_NAME = "numChangepointsPenaltyFactor";
-    public static final String NUM_CHANGEPOINTS_PENALTY_FACTOR_SHORT_NAME = "numChangeptsPen";
-
-    public static final String MINOR_ALLELE_FRACTION_PRIOR_ALPHA_LONG_NAME = "minorAlleleFractionPriorAlpha";
-    public static final String MINOR_ALLELE_FRACTION_PRIOR_ALPHA_SHORT_NAME = "alphaAF";
-
-    public static final String NUM_SAMPLES_COPY_RATIO_LONG_NAME = "numSamplesCopyRatio";
-    public static final String NUM_SAMPLES_COPY_RATIO_SHORT_NAME = "numSampCR";
-
-    public static final String NUM_BURN_IN_COPY_RATIO_LONG_NAME = "numBurnInCopyRatio";
-    public static final String NUM_BURN_IN_COPY_RATIO_SHORT_NAME = "numBurnCR";
-
-    public static final String NUM_SAMPLES_ALLELE_FRACTION_LONG_NAME = "numSamplesAlleleFraction";
-    public static final String NUM_SAMPLES_ALLELE_FRACTION_SHORT_NAME = "numSampAF";
-
-    public static final String NUM_BURN_IN_ALLELE_FRACTION_LONG_NAME = "numBurnInAlleleFraction";
-    public static final String NUM_BURN_IN_ALLELE_FRACTION_SHORT_NAME = "numBurnAF";
-
-    public static final String SMOOTHING_CREDIBLE_INTERVAL_THRESHOLD_COPY_RATIO_LONG_NAME = "smoothingThresholdCopyRatio";
-    public static final String SMOOTHING_CREDIBLE_INTERVAL_THRESHOLD_COPY_RATIO_SHORT_NAME = "smoothThCR";
-
-    public static final String SMOOTHING_CREDIBLE_INTERVAL_THRESHOLD_ALLELE_FRACTION_LONG_NAME = "smoothingThresholdAlleleFraction";
-    public static final String SMOOTHING_CREDIBLE_INTERVAL_THRESHOLD_ALLELE_FRACTION_SHORT_NAME = "smoothThAF";
-
-    public static final String MAX_NUM_SMOOTHING_ITERATIONS_LONG_NAME = "maxNumSmoothingIterations";
-    public static final String MAX_NUM_SMOOTHING_ITERATIONS_SHORT_NAME = "maxNumSmoothIter";
-
-    public static final String NUM_SMOOTHING_ITERATIONS_PER_FIT_LONG_NAME = "numSmoothingIterationsPerFit";
-    public static final String NUM_SMOOTHING_ITERATIONS_PER_FIT_SHORT_NAME = "numSmoothIterPerFit";
+    //smoothing argument names
+    public static final String SMOOTHING_CREDIBLE_INTERVAL_THRESHOLD_COPY_RATIO_LONG_NAME = "smoothing-credible-interval-threshold-copy-ratio";
+    public static final String SMOOTHING_CREDIBLE_INTERVAL_THRESHOLD_ALLELE_FRACTION_LONG_NAME = "smoothing-credible-interval-threshold-allele-fraction";
+    public static final String MAXIMUM_NUMBER_OF_SMOOTHING_ITERATIONS_LONG_NAME = "maximum-number-of-smoothing-iterations";
+    public static final String NUMBER_OF_SMOOTHING_ITERATIONS_PER_FIT_LONG_NAME = "number-of-smoothing-iterations-per-fit";
 
     @Argument(
             doc = "Input file containing denoised copy-ratio profile (output of DenoiseReadCounts).",
             fullName = CopyNumberStandardArgument.DENOISED_COPY_RATIOS_FILE_LONG_NAME,
-            shortName = CopyNumberStandardArgument.DENOISED_COPY_RATIOS_FILE_SHORT_NAME,
             optional = true
     )
     private File inputDenoisedCopyRatiosFile = null;
@@ -121,7 +90,6 @@ public final class ModelSegments extends CommandLineProgram {
     @Argument(
             doc = "Input file containing allelic counts (output of CollectAllelicCounts).",
             fullName = CopyNumberStandardArgument.ALLELIC_COUNTS_FILE_LONG_NAME,
-            shortName = CopyNumberStandardArgument.ALLELIC_COUNTS_FILE_SHORT_NAME,
             optional = true
     )
     private File inputAllelicCountsFile = null;
@@ -129,15 +97,13 @@ public final class ModelSegments extends CommandLineProgram {
     @Argument(
             doc = "Input file containing allelic counts for a matched normal (output of CollectAllelicCounts).",
             fullName = CopyNumberStandardArgument.NORMAL_ALLELIC_COUNTS_FILE_LONG_NAME,
-            shortName = CopyNumberStandardArgument.NORMAL_ALLELIC_COUNTS_FILE_SHORT_NAME,
             optional = true
     )
     private File inputNormalAllelicCountsFile = null;
 
     @Argument(
             doc = "Prefix for output files.",
-            fullName =  CopyNumberStandardArgument.OUTPUT_PREFIX_LONG_NAME,
-            shortName = CopyNumberStandardArgument.OUTPUT_PREFIX_SHORT_NAME
+            fullName =  CopyNumberStandardArgument.OUTPUT_PREFIX_LONG_NAME
     )
     private String outputPrefix;
 
@@ -149,18 +115,8 @@ public final class ModelSegments extends CommandLineProgram {
     private String outputDir;
 
     @Argument(
-            doc = "Maximum number of segments allowed per chromosome.",
-            fullName = MAXIMUM_NUMBER_OF_SEGMENTS_PER_CHROMOSOME_LONG_NAME,
-            shortName = MAXIMUM_NUMBER_OF_SEGMENTS_PER_CHROMOSOME_SHORT_NAME,
-            minValue = 1,
-            optional = true
-    )
-    private int maxNumSegmentsPerChromosome = 1000;
-
-    @Argument(
             doc = "Minimum total count for filtering allelic counts, if available.",
             fullName = MINIMUM_TOTAL_ALLELE_COUNT_LONG_NAME,
-            shortName = MINIMUM_TOTAL_ALLELE_COUNT_SHORT_NAME,
             minValue = 0,
             optional = true
     )
@@ -170,7 +126,6 @@ public final class ModelSegments extends CommandLineProgram {
             doc = "Log-ratio threshold for genotyping and filtering homozygous allelic counts, if available.  " +
                     "Increasing this value will increase the number of sites assumed to be heterozygous for modeling.",
             fullName = GENOTYPING_HOMOZYGOUS_LOG_RATIO_THRESHOLD_LONG_NAME,
-            shortName = GENOTYPING_HOMOZYGOUS_LOG_RATIO_THRESHOLD_SHORT_NAME,
             optional = true
     )
     private double genotypingHomozygousLogRatioThreshold = -10.;
@@ -181,15 +136,21 @@ public final class ModelSegments extends CommandLineProgram {
                     "from zero base-error rate up to this value.  Decreasing this value will increase " +
                     "the number of sites assumed to be heterozygous for modeling.",
             fullName = GENOTYPING_BASE_ERROR_RATE_LONG_NAME,
-            shortName = GENOTYPING_BASE_ERROR_RATE_SHORT_NAME,
             optional = true
     )
     private double genotypingBaseErrorRate = 5E-2;
 
     @Argument(
+            doc = "Maximum number of segments allowed per chromosome.",
+            fullName = MAXIMUM_NUMBER_OF_SEGMENTS_PER_CHROMOSOME_LONG_NAME,
+            minValue = 1,
+            optional = true
+    )
+    private int maxNumSegmentsPerChromosome = 1000;
+
+    @Argument(
             doc = "Variance of Gaussian kernel for copy-ratio segmentation, if performed.  If zero, a linear kernel will be used.",
             fullName = KERNEL_VARIANCE_COPY_RATIO_LONG_NAME,
-            shortName = KERNEL_VARIANCE_COPY_RATIO_SHORT_NAME,
             minValue = 0.,
             optional = true
     )
@@ -198,7 +159,6 @@ public final class ModelSegments extends CommandLineProgram {
     @Argument(
             doc = "Variance of Gaussian kernel for allele-fraction segmentation, if performed.  If zero, a linear kernel will be used.",
             fullName = KERNEL_VARIANCE_ALLELE_FRACTION_LONG_NAME,
-            shortName = KERNEL_VARIANCE_ALLELE_FRACTION_SHORT_NAME,
             minValue = 0.,
             optional = true
     )
@@ -208,7 +168,6 @@ public final class ModelSegments extends CommandLineProgram {
             doc = "Relative scaling S of the kernel K_AF for allele-fraction segmentation to the kernel K_CR for copy-ratio segmentation.  " +
                     "If multidimensional segmentation is performed, the total kernel used will be K_CR + S * K_AF.",
             fullName = KERNEL_SCALING_ALLELE_FRACTION_LONG_NAME,
-            shortName = KERNEL_SCALING_ALLELE_FRACTION_SHORT_NAME,
             minValue = 0.,
             optional = true
     )
@@ -221,7 +180,6 @@ public final class ModelSegments extends CommandLineProgram {
                     "than this number, then all data points in the chromosome will be used.  " +
                     "Time complexity scales quadratically and space complexity scales linearly with this parameter.",
             fullName = KERNEL_APPROXIMATION_DIMENSION_LONG_NAME,
-            shortName = KERNEL_APPROXIMATION_DIMENSION_SHORT_NAME,
             minValue = 1,
             optional = true
     )
@@ -234,7 +192,6 @@ public final class ModelSegments extends CommandLineProgram {
                     "Including small (large) window sizes will increase sensitivity to small (large) events.  " +
                     "Duplicate values will be ignored.",
             fullName = WINDOW_SIZE_LONG_NAME,
-            shortName = WINDOW_SIZE_SHORT_NAME,
             minValue = 1,
             optional = true
     )
@@ -246,8 +203,7 @@ public final class ModelSegments extends CommandLineProgram {
                     "where C is the number of changepoints in the chromosome, " +
                     "to the cost function for each chromosome.  " +
                     "Must be non-negative.",
-            fullName = NUM_CHANGEPOINTS_PENALTY_FACTOR_LONG_NAME,
-            shortName = NUM_CHANGEPOINTS_PENALTY_FACTOR_SHORT_NAME,
+            fullName = NUMBER_OF_CHANGEPOINTS_PENALTY_FACTOR_LONG_NAME,
             minValue = 0.,
             optional = true
     )
@@ -258,7 +214,6 @@ public final class ModelSegments extends CommandLineProgram {
                     "The prior for the minor-allele fraction f in each segment is assumed to be Beta(alpha, 1, 0, 1/2). " +
                     "Increasing this hyperparameter will reduce the effect of reference bias at the expense of sensitivity.",
             fullName = MINOR_ALLELE_FRACTION_PRIOR_ALPHA_LONG_NAME,
-            shortName = MINOR_ALLELE_FRACTION_PRIOR_ALPHA_SHORT_NAME,
             optional = true,
             minValue = 1
     )
@@ -266,8 +221,7 @@ public final class ModelSegments extends CommandLineProgram {
 
     @Argument(
             doc = "Total number of MCMC samples for copy-ratio model.",
-            fullName = NUM_SAMPLES_COPY_RATIO_LONG_NAME,
-            shortName = NUM_SAMPLES_COPY_RATIO_SHORT_NAME,
+            fullName = NUMBER_OF_SAMPLES_COPY_RATIO_LONG_NAME,
             optional = true,
             minValue = 1
     )
@@ -275,8 +229,7 @@ public final class ModelSegments extends CommandLineProgram {
 
     @Argument(
             doc = "Number of burn-in samples to discard for copy-ratio model.",
-            fullName = NUM_BURN_IN_COPY_RATIO_LONG_NAME,
-            shortName = NUM_BURN_IN_COPY_RATIO_SHORT_NAME,
+            fullName = NUMBER_OF_BURN_IN_SAMPLES_COPY_RATIO_LONG_NAME,
             optional = true,
             minValue = 0
     )
@@ -285,7 +238,6 @@ public final class ModelSegments extends CommandLineProgram {
     @Argument(
             doc = "Total number of MCMC samples for allele-fraction model.",
             fullName = NUM_SAMPLES_ALLELE_FRACTION_LONG_NAME,
-            shortName = NUM_SAMPLES_ALLELE_FRACTION_SHORT_NAME,
             optional = true,
             minValue = 1
     )
@@ -294,7 +246,6 @@ public final class ModelSegments extends CommandLineProgram {
     @Argument(
             doc = "Number of burn-in samples to discard for allele-fraction model.",
             fullName = NUM_BURN_IN_ALLELE_FRACTION_LONG_NAME,
-            shortName = NUM_BURN_IN_ALLELE_FRACTION_SHORT_NAME,
             optional = true,
             minValue = 0
     )
@@ -303,7 +254,6 @@ public final class ModelSegments extends CommandLineProgram {
     @Argument(
             doc = "Number of 10% equal-tailed credible-interval widths to use for copy-ratio segmentation smoothing.",
             fullName = SMOOTHING_CREDIBLE_INTERVAL_THRESHOLD_COPY_RATIO_LONG_NAME,
-            shortName = SMOOTHING_CREDIBLE_INTERVAL_THRESHOLD_COPY_RATIO_SHORT_NAME,
             optional = true,
             minValue = 0.
     )
@@ -312,7 +262,6 @@ public final class ModelSegments extends CommandLineProgram {
     @Argument(
             doc = "Number of 10% equal-tailed credible-interval widths to use for allele-fraction segmentation smoothing.",
             fullName = SMOOTHING_CREDIBLE_INTERVAL_THRESHOLD_ALLELE_FRACTION_LONG_NAME,
-            shortName = SMOOTHING_CREDIBLE_INTERVAL_THRESHOLD_ALLELE_FRACTION_SHORT_NAME,
             optional = true,
             minValue = 0.
     )
@@ -320,8 +269,7 @@ public final class ModelSegments extends CommandLineProgram {
 
     @Argument(
             doc = "Maximum number of iterations allowed for segmentation smoothing.",
-            fullName = MAX_NUM_SMOOTHING_ITERATIONS_LONG_NAME,
-            shortName = MAX_NUM_SMOOTHING_ITERATIONS_SHORT_NAME,
+            fullName = MAXIMUM_NUMBER_OF_SMOOTHING_ITERATIONS_LONG_NAME,
             optional = true,
             minValue = 0
     )
@@ -331,8 +279,7 @@ public final class ModelSegments extends CommandLineProgram {
             doc = "Number of segmentation-smoothing iterations per MCMC model refit. " +
                     "(Increasing this will decrease runtime, but the final number of segments may be higher. " +
                     "Setting this to 0 will completely disable model refitting between iterations.)",
-            fullName = NUM_SMOOTHING_ITERATIONS_PER_FIT_LONG_NAME,
-            shortName = NUM_SMOOTHING_ITERATIONS_PER_FIT_SHORT_NAME,
+            fullName = NUMBER_OF_SMOOTHING_ITERATIONS_PER_FIT_LONG_NAME,
             optional = true,
             minValue = 0
     )

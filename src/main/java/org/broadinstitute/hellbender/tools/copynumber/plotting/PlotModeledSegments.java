@@ -63,7 +63,6 @@ public final class PlotModeledSegments extends CommandLineProgram {
     @Argument(
             doc = "Input file containing denoised copy-ratio profile (output of DenoiseReadCounts).",
             fullName = CopyNumberStandardArgument.DENOISED_COPY_RATIOS_FILE_LONG_NAME,
-            shortName = CopyNumberStandardArgument.DENOISED_COPY_RATIOS_FILE_SHORT_NAME,
             optional = true
     )
     private File inputDenoisedCopyRatiosFile;
@@ -71,15 +70,13 @@ public final class PlotModeledSegments extends CommandLineProgram {
     @Argument(
             doc = "Input file containing allelic counts at heterozygous sites (output of ModelSegments).",
             fullName =  CopyNumberStandardArgument.ALLELIC_COUNTS_FILE_LONG_NAME,
-            shortName = CopyNumberStandardArgument.ALLELIC_COUNTS_FILE_SHORT_NAME,
             optional = true
     )
     private File inputAllelicCountsFile;
 
     @Argument(
             doc = "Input file containing modeled segments (output of ModelSegments).",
-            fullName = CopyNumberStandardArgument.SEGMENTS_FILE_LONG_NAME,
-            shortName = CopyNumberStandardArgument.SEGMENTS_FILE_SHORT_NAME
+            fullName = CopyNumberStandardArgument.SEGMENTS_FILE_LONG_NAME
     )
     private File inputModeledSegmentsFile;
 
@@ -91,15 +88,13 @@ public final class PlotModeledSegments extends CommandLineProgram {
 
     @Argument(
             doc = PlottingUtils.MINIMUM_CONTIG_LENGTH_DOC_STRING,
-            fullName =  PlottingUtils.MINIMUM_CONTIG_LENGTH_LONG_NAME,
-            shortName = PlottingUtils.MINIMUM_CONTIG_LENGTH_SHORT_NAME
+            fullName =  PlottingUtils.MINIMUM_CONTIG_LENGTH_LONG_NAME
     )
     private int minContigLength = PlottingUtils.DEFAULT_MINIMUM_CONTIG_LENGTH;
 
     @Argument(
             doc = "Prefix for output filenames.",
-            fullName =  CopyNumberStandardArgument.OUTPUT_PREFIX_LONG_NAME,
-            shortName = CopyNumberStandardArgument.OUTPUT_PREFIX_SHORT_NAME
+            fullName =  CopyNumberStandardArgument.OUTPUT_PREFIX_LONG_NAME
     )
     private String outputPrefix;
 

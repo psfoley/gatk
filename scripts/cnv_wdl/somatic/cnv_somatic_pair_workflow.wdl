@@ -244,10 +244,10 @@ task DenoiseReadCounts {
 
         java -Xmx${command_mem}m -jar $GATK_JAR DenoiseReadCounts \
             --input ${read_counts} \
-            --readCountPanelOfNormals ${read_count_pon} \
-            ${"--numberOfEigensamples " + number_of_eigensamples} \
-            --standardizedCopyRatios ${entity_id}.standardizedCR.tsv \
-            --denoisedCopyRatios ${entity_id}.denoisedCR.tsv
+            --count-panel-of-normals ${read_count_pon} \
+            ${"--number-of-eigensamples " + number_of_eigensamples} \
+            --standardized-copy-ratios ${entity_id}.standardizedCR.tsv \
+            --denoised-copy-ratios ${entity_id}.denoisedCR.tsv
     >>>
 
     runtime {
@@ -310,30 +310,30 @@ task ModelSegments {
         GATK_JAR=${default="/root/gatk.jar" gatk4_jar_override}
 
         java -Xmx${command_mem}m -jar $GATK_JAR ModelSegments \
-            --denoisedCopyRatios ${denoised_copy_ratios} \
-            --allelicCounts ${allelic_counts} \
-            ${"--normalAllelicCounts " + normal_allelic_counts} \
-            --maxNumSegmentsPerChromosome ${default="500" max_num_segments_per_chromosome} \
-            --minTotalAlleleCount ${default="30" min_total_allele_count} \
-            --genotypingHomozygousLogRatioThreshold ${default="-10.0" genotyping_homozygous_log_ratio_threshold} \
-            --genotypingBaseErrorRate ${default="0.05" genotyping_base_error_rate} \
-            --kernelVarianceCopyRatio ${default="0.0" kernel_variance_copy_ratio} \
-            --kernelVarianceAlleleFraction ${default="0.025" kernel_variance_allele_fraction} \
-            --kernelScalingAlleleFraction ${default="1.0" kernel_scaling_allele_fraction} \
-            --kernelApproximationDimension ${default="100" kernel_approximation_dimension} \
-            --windowSize ${sep= " --windowSize " window_sizes} \
-            --numChangepointsPenaltyFactor ${default="1.0" num_changepoints_penalty_factor} \
-            --minorAlleleFractionPriorAlpha ${default="25.0" minor_allele_fraction_prior_alpha} \
-            --numSamplesCopyRatio ${default=100 num_samples_copy_ratio} \
-            --numBurnInCopyRatio ${default=50 num_burn_in_copy_ratio} \
-            --numSamplesAlleleFraction ${default=100 num_samples_allele_fraction} \
-            --numBurnInAlleleFraction ${default=50 num_burn_in_allele_fraction} \
-            --smoothingThresholdCopyRatio ${default="2.0" smoothing_threshold_copy_ratio} \
-            --smoothingThresholdAlleleFraction ${default="2.0" smoothing_threshold_allele_fraction} \
-            --maxNumSmoothingIterations ${default=10 max_num_smoothing_iterations} \
-            --numSmoothingIterationsPerFit ${default=0 num_smoothing_iterations_per_fit} \
+            --denoised-copy-ratios ${denoised_copy_ratios} \
+            --allelic-counts ${allelic_counts} \
+            ${"--normal-allelic-counts " + normal_allelic_counts} \
+            --minimum-total-allele-count ${default="30" min_total_allele_count} \
+            --genotyping-homozygous-log-ratio-threshold ${default="-10.0" genotyping_homozygous_log_ratio_threshold} \
+            --genotyping-base-error-rate ${default="0.05" genotyping_base_error_rate} \
+            --maximum-number-of-segments-per-chromosome ${default="500" max_num_segments_per_chromosome} \
+            --kernel-variance-copy-ratio ${default="0.0" kernel_variance_copy_ratio} \
+            --kernel-variance-allele-fraction ${default="0.025" kernel_variance_allele_fraction} \
+            --kernel-scaling-allele-fraction ${default="1.0" kernel_scaling_allele_fraction} \
+            --kernel-approximation-dimension ${default="100" kernel_approximation_dimension} \
+            --window-size ${sep= " --windowSize " window_sizes} \
+            --number-of-changepoints-penalty-factor ${default="1.0" num_changepoints_penalty_factor} \
+            --minor-allele-fraction-prior-alpha ${default="25.0" minor_allele_fraction_prior_alpha} \
+            --number-of-samples-copy-ratio ${default=100 num_samples_copy_ratio} \
+            --number-of-burn-in-samples-copy-ratio ${default=50 num_burn_in_copy_ratio} \
+            --number-of-samples-allele-fraction ${default=100 num_samples_allele_fraction} \
+            --number-of-burn-in-samples-allele-fraction ${default=50 num_burn_in_allele_fraction} \
+            --smoothing-credible-interval-threshold-copy-ratio ${default="2.0" smoothing_threshold_copy_ratio} \
+            --smoothing-credible-interval-threshold-allele-fraction ${default="2.0" smoothing_threshold_allele_fraction} \
+            --maximum-number-of-smoothing-iterations ${default=10 max_num_smoothing_iterations} \
+            --number-of-smoothing-iterations-per-fit ${default=0 num_smoothing_iterations_per_fit} \
             --output ${output_dir_} \
-            --outputPrefix ${entity_id}
+            --output-prefix ${entity_id}
 
         # We need to create the file even if the above command doesn't so we have something to delocalize
         # If no file is created by the above task then it will copy out an empty file
@@ -384,9 +384,9 @@ task CallCopyRatioSegments {
 
         java -Xmx${command_mem}m -jar $GATK_JAR CallCopyRatioSegments \
             --input ${copy_ratio_segments} \
-            --neutralSegmentCopyRatioThreshold ${default="0.1" neutral_segment_copy_ratio_threshold} \
-            --outlierNeutralSegmentCopyRatioZScoreThreshold ${default="2.0" outlier_neutral_segment_copy_ratio_z_score_threshold} \
-            --callingCopyRatioZScoreThreshold ${default="2.0" calling_copy_ratio_z_score_threshold} \
+            --neutral-segment-copy-ratio-threshold ${default="0.1" neutral_segment_copy_ratio_threshold} \
+            --outlier-neutral-segment-copy-ratio-z-score-threshold ${default="2.0" outlier_neutral_segment_copy_ratio_z_score_threshold} \
+            --calling-copy-ratio-z-score-threshold ${default="2.0" calling_copy_ratio_z_score_threshold} \
             --output ${entity_id}.called.seg
     >>>
 
@@ -430,12 +430,12 @@ task PlotDenoisedCopyRatios {
         GATK_JAR=${default="/root/gatk.jar" gatk4_jar_override}
 
         java -Xmx${command_mem}m -jar $GATK_JAR PlotDenoisedCopyRatios \
-            --standardizedCopyRatios ${standardized_copy_ratios} \
-            --denoisedCopyRatios ${denoised_copy_ratios} \
+            --standardized-copy-ratios ${standardized_copy_ratios} \
+            --denoised-copy-ratios ${denoised_copy_ratios} \
             --sequence-dictionary ${ref_fasta_dict} \
-            --minimumContigLength ${default="1000000" minimum_contig_length} \
+            --minimum-contig-length ${default="1000000" minimum_contig_length} \
             --output ${output_dir_} \
-            --outputPrefix ${entity_id}
+            --output-prefix ${entity_id}
     >>>
 
     runtime {
@@ -484,13 +484,13 @@ task PlotModeledSegments {
         GATK_JAR=${default="/root/gatk.jar" gatk4_jar_override}
 
         java -Xmx${command_mem}m -jar $GATK_JAR PlotModeledSegments \
-            --denoisedCopyRatios ${denoised_copy_ratios} \
-            --allelicCounts ${het_allelic_counts} \
+            --denoised-copy-ratios ${denoised_copy_ratios} \
+            --allelic-counts ${het_allelic_counts} \
             --segments ${modeled_segments} \
             --sequence-dictionary ${ref_fasta_dict} \
-            --minimumContigLength ${default="1000000" minimum_contig_length} \
+            --minimum-contig-length ${default="1000000" minimum_contig_length} \
             --output ${output_dir_} \
-            --outputPrefix ${entity_id}
+            --output-prefix ${entity_id}
     >>>
 
     runtime {

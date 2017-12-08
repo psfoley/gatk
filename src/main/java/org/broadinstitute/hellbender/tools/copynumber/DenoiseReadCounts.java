@@ -52,8 +52,7 @@ public final class DenoiseReadCounts extends CommandLineProgram {
 
     @Argument(
             doc = "Input HDF5 file containing the panel of normals (output of CreateReadCountPanelOfNormals).",
-            fullName = CopyNumberStandardArgument.READ_COUNT_PANEL_OF_NORMALS_FILE_LONG_NAME,
-            shortName = CopyNumberStandardArgument.READ_COUNT_PANEL_OF_NORMALS_FILE_SHORT_NAME,
+            fullName = CopyNumberStandardArgument.COUNT_PANEL_OF_NORMALS_FILE_LONG_NAME,
             optional = true
     )
     private File inputPanelOfNormalsFile = null;
@@ -63,22 +62,19 @@ public final class DenoiseReadCounts extends CommandLineProgram {
                     "Intervals must be identical to and in the same order as those in the input read-count file.  " +
                     "If a panel of normals is provided, this input will be ignored.",
             fullName = CopyNumberStandardArgument.ANNOTATED_INTERVALS_FILE_LONG_NAME,
-            shortName = CopyNumberStandardArgument.ANNOTATED_INTERVALS_FILE_SHORT_NAME,
             optional = true
     )
     private File annotatedIntervalsFile = null;
 
     @Argument(
             doc = "Output file for standardized copy-ratio profile.  GC-bias correction will be performed if annotations for GC content are provided.",
-            fullName = CopyNumberStandardArgument.STANDARDIZED_COPY_RATIOS_FILE_LONG_NAME,
-            shortName = CopyNumberStandardArgument.STANDARDIZED_COPY_RATIOS_FILE_SHORT_NAME
+            fullName = CopyNumberStandardArgument.STANDARDIZED_COPY_RATIOS_FILE_LONG_NAME
     )
     private File standardizedCopyRatiosFile;
 
     @Argument(
             doc = "Output file for denoised copy-ratio profile.",
-            fullName = CopyNumberStandardArgument.DENOISED_COPY_RATIOS_FILE_LONG_NAME,
-            shortName = CopyNumberStandardArgument.DENOISED_COPY_RATIOS_FILE_SHORT_NAME
+            fullName = CopyNumberStandardArgument.DENOISED_COPY_RATIOS_FILE_LONG_NAME
     )
     private File denoisedCopyRatiosFile;
 
@@ -87,7 +83,6 @@ public final class DenoiseReadCounts extends CommandLineProgram {
                     "If not specified or if the number of eigensamples available in the panel of normals " +
                     "is smaller than this, all eigensamples will be used.",
             fullName = CopyNumberStandardArgument.NUMBER_OF_EIGENSAMPLES_LONG_NAME,
-            shortName = CopyNumberStandardArgument.NUMBER_OF_EIGENSAMPLES_SHORT_NAME,
             optional = true
     )
     private Integer numEigensamplesRequested = null;
