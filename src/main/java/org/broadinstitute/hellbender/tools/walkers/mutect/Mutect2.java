@@ -1,8 +1,6 @@
 package org.broadinstitute.hellbender.tools.walkers.mutect;
 
 import htsjdk.samtools.SAMSequenceDictionary;
-import htsjdk.variant.variantcontext.VariantContext;
-import htsjdk.variant.variantcontext.VariantContextBuilder;
 import htsjdk.variant.variantcontext.writer.VariantContextWriter;
 import org.broadinstitute.barclay.argparser.Argument;
 import org.broadinstitute.barclay.argparser.ArgumentCollection;
@@ -13,11 +11,11 @@ import org.broadinstitute.hellbender.cmdline.StandardArgumentDefinitions;
 import org.broadinstitute.hellbender.cmdline.programgroups.VariantProgramGroup;
 import org.broadinstitute.hellbender.engine.*;
 import org.broadinstitute.hellbender.engine.filters.ReadFilter;
-import org.broadinstitute.hellbender.utils.SimpleInterval;
-import org.broadinstitute.hellbender.utils.variant.GATKVariantContextUtils;
+import org.broadinstitute.hellbender.tools.walkers.contamination.GetPileupSummaries;
+import org.broadinstitute.hellbender.tools.exome.FilterByOrientationBias;
+import org.broadinstitute.hellbender.tools.walkers.contamination.CalculateContamination;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,28 +29,7 @@ import java.util.List;
  *     Although we present the tool for somatic analyses, it may also apply to other contexts, such as mitochondrial variant calling.
  * </p>
  *
- * <h3>How GATK4 Mutect2 differs from GATK3 MuTect2</h3>
- *
- * <dl>
- *     <dd>(i) The filtering functionality is now a separate tool called {@link FilterMutectCalls}.
- *     To filter further based on sequence context artifacts, additionally use {@link org.broadinstitute.hellbender.tools.exome.FilterByOrientationBias}.</dd>
- *     <dd>(ii) If using a known germline variants resource, then it must contain population allele frequencies, e.g.
- *     from gnomAD or the 1000 Genomes Project. The VCF INFO field contains the allele frequency (AF) tag.
- *     See below or the GATK Resource Bundle for an example.</dd>
- *     <dd>(iii) To create the panel of normals (PoN), call on each normal sample using Mutect2's tumor-only mode and then use GATK4's {@link CreateSomaticPanelOfNormals}.
- *     This contrasts with the GATK3 workflow, which uses an artifact mode in MuTect2 and CombineVariants for PoN creation.
- *     In GATK4, omitting filtering with FilterMutectCalls achieves the same artifact mode.</dd>
- *     <dd>(iv) Instead of using a maximum likelihood estimate, GATK4 Mutect2 marginalizes over allele fractions in its Bayesian likelihoods model.  See docs/mutect/mutect.pdf for details.
- *     GATK3 MuTect2 directly uses allele depths (AD) to estimate allele fractions and calculate likelihoods. In contrast, GATK4 Mutect2
- *     factors for the statistical error inherent in allele depths by marginalizing over allele fractions when calculating likelihoods.</dd>
- *     <dd>(v) GATK4 Mutect2 recommends including contamination estimates with the -contaminationFile option from {@link org.broadinstitute.hellbender.tools.walkers.contamination.CalculateContamination},
- *     which in turn relies on the results of {@link org.broadinstitute.hellbender.tools.walkers.contamination.GetPileupSummaries}.</dd>
- * </dl>
- *
- * <p>
- *     What remains unchanged is that neither tool versions call on seeming loss of heterozygosity (LoH) events.
- *     To detect LoH, see the Copy Number Variant (CNV) and AllelicCNV workflows.
- * </p>
+ * <p>For how GATK4 Mutect2 differs from GATK3 MuTect2, see <a href='https://software.broadinstitute.org/gatk/documentation/article?id=10911'>.</p>
  *
  * <p>Here is an example of a known variants resource with population allele frequencies:</p>
  *
@@ -131,7 +108,7 @@ import java.util.List;
  *     emissions enable manual review.
  * </p>
  * <pre>
- * gatk-launch --javaOptions "-Xmx4g" Mutect2 \
+ * gatk --javaOptions "-Xmx4g" Mutect2 \
  *   -R ref_fasta.fa \
  *   -I tumor.bam \
  *   -tumor tumor_sample_name \
@@ -145,7 +122,7 @@ import java.util.List;
  *
  * <h4>Single tumor sample</h4>
  * <pre>
- *  gatk-launch --javaOptions "-Xmx4g" Mutect2 \
+ *  gatk --javaOptions "-Xmx4g" Mutect2 \
  *   -R ref_fasta.fa \
  *   -I tumor.bam \
  *   -tumor tumor_sample_name \
@@ -163,7 +140,7 @@ import java.util.List;
  *    Picard MakeSitesOnlyVcf to simplify the callset for use as a PoN.
  * </p>
  * <pre>
- * gatk-launch --javaOptions "-Xmx4g" Mutect2 \
+ * gatk --javaOptions "-Xmx4g" Mutect2 \
  *   -R ref_fasta.fa \
  *   -I normal1.bam \
  *   -tumor normal1_sample_name \

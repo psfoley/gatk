@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public abstract class PerAlleleAnnotation extends GenotypeAnnotation {
 
     /**
-     * Calculate annotations for eah allele based on given VariantContext and likelihoods for a given genotype's sample
+     * Calculate annotations for each allele based on given VariantContext and likelihoods for a given genotype's sample
      * and add the annotations to the GenotypeBuilder.  By default annotations are only calculated for alt alleles but
      * implementations may override the {@code includeRefAllele()} method.  See parent class docs in {@link GenotypeAnnotation}.
      */

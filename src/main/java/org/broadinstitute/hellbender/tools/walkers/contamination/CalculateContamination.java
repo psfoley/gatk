@@ -48,7 +48,7 @@ import java.util.stream.IntStream;
  * <h3>Example: tumor-only mode</h3>
  *
  * <pre>
- * gatk-launch --javaOptions "-Xmx4g" CalculateContamination \
+ * gatk --javaOptions "-Xmx4g" CalculateContamination \
  *   -I pileups.table \
  *   -O contamination.table
  * </pre> *
@@ -56,7 +56,7 @@ import java.util.stream.IntStream;
  * <h3>Example: matched normal mode</h3>
  *
  * <pre>
- * gatk-launch --javaOptions "-Xmx4g" CalculateContamination \
+ * gatk --javaOptions "-Xmx4g" CalculateContamination \
  *   -I tumor-pileups.table \
  *   -matched normal-pileups.table \
  *   -O contamination.table

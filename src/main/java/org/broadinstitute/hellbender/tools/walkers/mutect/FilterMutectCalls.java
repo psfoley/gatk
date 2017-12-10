@@ -16,6 +16,7 @@ import org.broadinstitute.hellbender.engine.*;
 import org.broadinstitute.hellbender.utils.variant.GATKVCFConstants;
 import org.broadinstitute.hellbender.utils.variant.GATKVCFHeaderLines;
 import org.broadinstitute.hellbender.tools.exome.FilterByOrientationBias;
+import org.broadinstitute.hellbender.tools.walkers.contamination.CalculateContamination;
 
 import java.io.File;
 import java.util.*;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
  * <p>
  *     FilterMutectCalls encapsulates GATK3 MuTect2's filtering functionality and adds additional filters.
  *     GATK4 Mutect2 retains variant calling and some prefiltering.
- *     Thresholds for filters are contained in {@link M2FiltersArgumentCollection} and described in docs/mutect/mutect.pdf.
+ *     Thresholds for filters are contained in {@link M2FiltersArgumentCollection} and described in <a href='https://github.com/broadinstitute/gatk/tree/master/docs/mutect/mutect.pdf' target='_blank'>.
  *     Separating calling and filtering into two tools better enables an iterative filtering process
  *     that allows for context-specific optimizations. To filter further based on sequence context artifacts,
  *     additionally use {@link FilterByOrientationBias}.
@@ -42,7 +43,7 @@ import java.util.stream.Collectors;
  *
  * <p>
  *     If given a --contaminationTable file, e.g. results from
- *     {@link org.broadinstitute.hellbender.tools.walkers.contamination.CalculateContamination}, the tool will additionally
+ *     {@link CalculateContamination}, the tool will additionally
  *     filter on contamination fractions. Alternatively, provide a numerical fraction to filter with --contamination_fraction_to_filter.
  * </p>
  *
@@ -58,10 +59,10 @@ import java.util.stream.Collectors;
  *
  * <h3>Example</h3>
  * <pre>
- * gatk-launch --javaOptions "-Xmx4g" FilterMutectCalls \
- *   -V unfiltered.vcf \
+ * gatk --javaOptions "-Xmx4g" FilterMutectCalls \
+ *   -V unfiltered.vcf.gz \
  *   -contaminationTable contamination.table \
- *   -O filtered.vcf
+ *   -O filtered.vcf.gz
  * </pre>
  *
  */

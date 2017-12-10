@@ -17,9 +17,15 @@ import java.util.OptionalInt;
  * Median distance of variant starts from ends of reads supporting each alt allele.
  *
  * </p>The output is an array containing, for each alt allele, the median distance of the variant start from the closest read end over all reads that best match that allele.</p>
- * </p>For example, for variant context with ref allele A and alt allele C the read position for alt-supporting read GGGGCTT is 2.
+ * </p>For example, for variant context with ref allele A and alt allele C the read position for alt-supporting read GGGGCTT is 2 because the A to C
+ * substitution is 2 bases from the right end of the read, which is less than its distance from the left end.
  * For variant context with ref allele AG and alt allele A (deletion) the read position of alt-supporting read ATTTTT is 0.
  * For variant context with ref allele A and alt allele AG (insertion) the read position of alt-supporting read TTTTAG is 1.</p>
+ * <p>The annotation considers only the read's bases themselves and not the position they map to with respect to the reference.  That is, a
+ * read position of n means that a variant start occurred n <i>sequencer cycles</i> after the first cycle or before the last cycle.  For example,
+ * suppose a substitution is followed by 10 matching bases, a 10-base deletion, and 10 more matching bases.  It's distance from the end of the read
+ * is 20 bases, not 30 bases.  Similarly soft-clipped bases are counted in the distance.</p>
+ * <p>This annotation is useful for filtering alignment artifacts.</p>
  */
 @DocumentedFeature(groupName=HelpConstants.DOC_CAT_ANNOTATORS, groupSummary=HelpConstants.DOC_CAT_ANNOTATORS_SUMMARY, summary="Median distance of variant starts from ends of reads supporting each allele (MPOS)")
 public class ReadPosition extends PerAlleleAnnotation implements StandardMutectAnnotation {

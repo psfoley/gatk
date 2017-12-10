@@ -50,7 +50,7 @@ import java.util.stream.StreamSupport;
  *
  * <p>Step 1. Run Mutect2 in tumor-only mode for each normal sample.</p>
  * <pre>
- * gatk-launch --javaOptions "-Xmx4g" Mutect2 \
+ * gatk --javaOptions "-Xmx4g" Mutect2 \
  *   -R ref_fasta.fa \
  *   -I normal1.bam \
  *   -tumor normal1_sample_name \
@@ -71,14 +71,14 @@ import java.util.stream.StreamSupport;
  * <p>Step 3. Combine the normal calls using CreateSomaticPanelOfNormals.</p>
  *
  * <pre>
- * gatk-launch --javaOptions "-Xmx4g" CreateSomaticPanelOfNormals \
+ * gatk --javaOptions "-Xmx4g" CreateSomaticPanelOfNormals \
  *   -vcfs normals_for_pon_vcf.list \
  *   -O pon.vcf.gz
  * </pre>
  *
  * <p>Alternatively, provide each normal's VCF as separate arguments.</p>
  * <pre>
- * gatk-launch --javaOptions "-Xmx4g" CreateSomaticPanelOfNormals \
+ * gatk --javaOptions "-Xmx4g" CreateSomaticPanelOfNormals \
  *   -vcfs normal1_for_pon_vcf.gz \
  *   -vcfs normal2_for_pon_vcf.gz \
  *   -vcfs normal3_for_pon_vcf.gz \
@@ -87,7 +87,7 @@ import java.util.stream.StreamSupport;
  *
  *  <p>The tool also accepts multiple .list files. Pass each in with the -vcfs option.</p>
  *
- *  <p>See documentation for {@link Mutect2} for examples of using a PoN.</p>
+ *  <p>See {@link Mutect2} documentation for usage examples.</p>
  *
  */
 @CommandLineProgramProperties(

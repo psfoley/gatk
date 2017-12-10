@@ -11,34 +11,24 @@ import org.broadinstitute.barclay.help.DocumentedFeature;
 import org.broadinstitute.hellbender.engine.ReferenceContext;
 import org.broadinstitute.hellbender.utils.genotyper.ReadLikelihoods;
 import org.broadinstitute.hellbender.utils.help.HelpConstants;
-import org.broadinstitute.hellbender.tools.walkers.markduplicates.MarkDuplicatesGATK;
+import picard.sam.markduplicates.MarkDuplicates;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Counts the number of unique pairs of (start positions, fragment length) among all alt reads.
+ * Finds a lower bound on the number of unique reads at a locus that support a non-reference allele.
  *
  * <p>Multiple reads with the same start position and fragment length are grouped and counted only once as they are
- * likely duplicates. In the majority of false positives in low allele fraction, cell-free DNA samples
- * the alternate allele is suported by three or fewer sets of apparent PCR-duplicate reads.
- * Reads in such a set come from the same original insert and thus have the same read start and fragment length.
- * They are normally marked as duplicates by {@link MarkDuplicatesGATK}, but when we use unique molecular identifiers (UMIs)
- * they may get different UMIs and not be marked as duplicates.</p>
+ * likely duplicates.  In most cases such reads should be filtered using a tool such as {@link MarkDuplicates}.  This annotation
+ * is designed for use with unique molecular identifiers (UMIs), in which case reads with the same start and fragment length but different
+ * UMIs would appear to be independent.</p>
  *
- * <p></p>Although these reads have different UMIs, we suspect that they really are PCR-duplicates, for two reasons:
- * <p><ul>
- *     <li>These sites are false positives.</li>
- *     <li>With hybrid selection, it's highly unlikely that we sequence multiple fragments with identical start and end positions.</li>
- * </ul></p></p>
- *
- * <p></p>We now believe that these duplicates are the result of a false-priming event that occurs during PCR amplification.
- * We suspect that during amplification excess adapter remains after the ligation step and fails to be completely
+ * <p>Although these reads have different UMIs, sometimes they really are PCR duplicates.
+ * We now believe that these duplicates are the result of a false-priming event that occurs during PCR amplification
+ * in which excess adapter remains after the ligation step and fails to be completely
  * cleaned up during SPRI. This excess adapter is thought to act as a PCR primer during amplification, which leads to
  * the synthesis of a molecule with the wrong UMI.</p>
- *
- * <p></p>We filter the variant if the count is lower than a user-specified threshold.
- * Mutect2FilteringEngine::applyDuplicatedAltReadFilter is the accompanying filter.</p>
  */
 @DocumentedFeature(groupName=HelpConstants.DOC_CAT_ANNOTATORS, groupSummary=HelpConstants.DOC_CAT_ANNOTATORS_SUMMARY, summary="Number of non-duplicate-insert ALT reads (UNIQ_ALT_READ_COUNT)")
 public class UniqueAltReadCount extends GenotypeAnnotation {

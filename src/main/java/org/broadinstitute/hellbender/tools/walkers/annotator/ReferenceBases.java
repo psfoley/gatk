@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * Local reference context at a variant position.
  *
- * </p>The output is a string of 21 reference seqeunce bases around a variant start -- 10 to the left, the start position itself, and 10 to the right.
+ * </p>The annotation gives ten reference bases each to the left and right of the variant start and the start base for a total of 21 reference bases.
  * Start position is defined as one base before indels.  For example, the reference context AAAAAAAAAACTTTTTTTTTT would apply to a SNV variant
  * context with ref allele C and alt allele G as well as to a deletion variant context with ref allele CT and alt allele C.</p>
  *

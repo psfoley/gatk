@@ -19,6 +19,8 @@ import org.broadinstitute.hellbender.tools.exome.orientationbiasvariantfilter.Or
 import org.broadinstitute.hellbender.tools.exome.orientationbiasvariantfilter.OrientationBiasUtils;
 import org.broadinstitute.hellbender.tools.exome.orientationbiasvariantfilter.PreAdapterOrientationScorer;
 import org.broadinstitute.hellbender.utils.artifacts.Transition;
+import picard.analysis.artifacts.CollectSequencingArtifactMetrics;
+import org.broadinstitute.hellbender.tools.walkers.mutect.FilterMutectCalls;
 import picard.analysis.artifacts.SequencingArtifactMetrics;
 
 import java.io.File;
@@ -31,16 +33,16 @@ import java.util.stream.Collectors;
  * Additionally filter Mutect2 somatic variant calls for sequence context-dependent artifacts.
  *
  * <p>
- *     This tool is complementary to {@link org.broadinstitute.hellbender.tools.walkers.mutect.FilterMutectCalls}.
- *     The tool requires the pre-adapter detailed metrics calculated by Picard {@link picard.analysis.artifacts.CollectSequencingArtifactMetrics}.
+ *     This tool is complementary to {@link FilterMutectCalls}.
+ *     The tool requires the pre-adapter detailed metrics calculated by Picard {@link CollectSequencingArtifactMetrics}.
  *     Specify the base substitution to consider for orientation bias. For a given base substitution specified with
  *     the --artifactModes argument, the tool considers both the forward and reverse complement for filtering.  That is, specifying
- *     {@code --artifactModes 'G/T'} means the tool wil consider G to T *and* A to C artifacts for filtering.
+ *     {@code --artifactModes 'G/T'} means the tool considers G to T <i>and</i> A to C artifacts for filtering.
  * </p>
  *
  * <p>
- *     The metrics from {@link picard.analysis.artifacts.CollectSequencingArtifactMetrics} give a global view across a sample's genome that empowers
- *     decision making in ways site-specific analyses cannot. {@link picard.analysis.artifacts.CollectSequencingArtifactMetrics} should be run for both
+ *     The metrics from {@link CollectSequencingArtifactMetrics} give a global view across a sample's genome that empowers
+ *     decision making in ways site-specific analyses cannot. {@link CollectSequencingArtifactMetrics} should be run for both
  *     the normal sample and the tumor sample, if the matched normal is available. The detailed metrics measure orientation
  *     bias for all 3-base contexts and help determine whether variant filtering for a sequence context is necessary.
  * </p>
@@ -53,19 +55,32 @@ import java.util.stream.Collectors;
  * </p>
  *
  * <h3>Example</h3>
- * <h4>Step 1: run Picard CollectSequencingArtifactMetrics</h4>
+ * <h4>Step 1A: invoke Picard CollectSequencingArtifactMetrics using the GATK4 launch script</h4>
  * <pre>
- * java -Xmx4G -jar picard.jar CollectSequencingArtifactMetrics I=tumor.bam O="tumor" R=ref.fasta VALIDATION_STRINGENCY=LENIENT
+ * gatk CollectSequencingArtifactMetrics \
+ *   -I tumor.bam \
+ *   -R ref.fasta \
+ *   -O tumor_artifact \
+ *   --FILE_EXTENSION ".txt"
+ * </pre>
+ *
+ * <h4>Step 1 B: run Picard CollectSequencingArtifactMetrics from a Picard jar</h4>
+ * <pre>
+ * java -Xmx4G -jar picard.jar CollectSequencingArtifactMetrics \
+ *   I=tumor.bam \
+ *   R=ref.fasta \
+ *   O="tumor_artifact" \
+ *   VALIDATION_STRINGENCY=LENIENT
  *</pre>
  *
  * <h4>Step 2: run FilterByOrientationBias</h4>
  * For OxoG artifacts, specify G to T artifacts.
  * <pre>
- * gatk-launch --javaOptions "-Xmx4g" FilterByOrientationBias \
+ * gatk --javaOptions "-Xmx4g" FilterByOrientationBias \
  *   --artifactModes 'G/T' \
- *   -V mutect_calls.vcf \
+ *   -V mutect_calls.vcf.gz \
  *   -P tumor.pre_adapter_detail_metrics \
- *   -O oxog_filtered.vcf
+ *   -O oxog_filtered.vcf.gz
  * </pre>
  *
  */

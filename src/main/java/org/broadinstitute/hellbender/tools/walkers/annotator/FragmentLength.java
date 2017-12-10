@@ -16,7 +16,7 @@ import java.util.OptionalInt;
  *
  * <p>The output is an array containing, for each allele, the median fragment length over all reads that best match that allele.  Fragment length here is defined to be non-negative and is zero for unpaired reads.</p>
  *
- * <p>For example, if the left read in a pair starts at position 100 and the right ends at position 300 (inclusive) then the fragment length is 201 regardless of which is read 1 and which is read 2 i.e. it is *not* -201.</p>
+ * <p>For example, if the left read in a pair starts at position 100 and the right ends at position 300 (inclusive) then the fragment length is 201 regardless of which is read 1 and which is read 2, i.e. it is <i>not</i> -201.</p>
  */
 @DocumentedFeature(groupName=HelpConstants.DOC_CAT_ANNOTATORS, groupSummary=HelpConstants.DOC_CAT_ANNOTATORS_SUMMARY, summary="Median fragment length of reads supporting each allele (MFRL)")
 public class FragmentLength extends PerAlleleAnnotation implements StandardMutectAnnotation {
