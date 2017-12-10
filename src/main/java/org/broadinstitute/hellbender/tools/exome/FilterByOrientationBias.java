@@ -9,7 +9,7 @@ import org.broadinstitute.barclay.argparser.BetaFeature;
 import org.broadinstitute.barclay.argparser.CommandLineProgramProperties;
 import org.broadinstitute.barclay.help.DocumentedFeature;
 import org.broadinstitute.hellbender.cmdline.StandardArgumentDefinitions;
-import org.broadinstitute.hellbender.cmdline.programgroups.VariantProgramGroup;
+import org.broadinstitute.hellbender.cmdline.programgroups.VariantFilteringProgramGroup;
 import org.broadinstitute.hellbender.engine.FeatureContext;
 import org.broadinstitute.hellbender.engine.ReadsContext;
 import org.broadinstitute.hellbender.engine.ReferenceContext;
@@ -18,9 +18,9 @@ import org.broadinstitute.hellbender.exceptions.UserException;
 import org.broadinstitute.hellbender.tools.exome.orientationbiasvariantfilter.OrientationBiasFilterer;
 import org.broadinstitute.hellbender.tools.exome.orientationbiasvariantfilter.OrientationBiasUtils;
 import org.broadinstitute.hellbender.tools.exome.orientationbiasvariantfilter.PreAdapterOrientationScorer;
+import org.broadinstitute.hellbender.tools.walkers.mutect.FilterMutectCalls;
 import org.broadinstitute.hellbender.utils.artifacts.Transition;
 import picard.analysis.artifacts.CollectSequencingArtifactMetrics;
-import org.broadinstitute.hellbender.tools.walkers.mutect.FilterMutectCalls;
 import picard.analysis.artifacts.SequencingArtifactMetrics;
 
 import java.io.File;
@@ -102,7 +102,7 @@ import java.util.stream.Collectors;
                 " - This filter should be applied last in any M2 toolchain.\n" +
                 " - Common artifacts:\n G/T (OxoG)\n C/T (deamination) ",
         oneLineSummary = "(Experimental) Filter Mutect2 somatic variant calls using orientation bias",
-        programGroup = VariantProgramGroup.class
+        programGroup = VariantFilteringProgramGroup.class
 )
 @DocumentedFeature
 @BetaFeature

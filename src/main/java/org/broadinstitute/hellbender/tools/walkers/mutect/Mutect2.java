@@ -8,12 +8,9 @@ import org.broadinstitute.barclay.argparser.BetaFeature;
 import org.broadinstitute.barclay.argparser.CommandLineProgramProperties;
 import org.broadinstitute.barclay.help.DocumentedFeature;
 import org.broadinstitute.hellbender.cmdline.StandardArgumentDefinitions;
-import org.broadinstitute.hellbender.cmdline.programgroups.VariantProgramGroup;
+import org.broadinstitute.hellbender.cmdline.programgroups.ShortVariantDiscoveryProgramGroup;
 import org.broadinstitute.hellbender.engine.*;
 import org.broadinstitute.hellbender.engine.filters.ReadFilter;
-import org.broadinstitute.hellbender.tools.walkers.contamination.GetPileupSummaries;
-import org.broadinstitute.hellbender.tools.exome.FilterByOrientationBias;
-import org.broadinstitute.hellbender.tools.walkers.contamination.CalculateContamination;
 
 import java.io.File;
 import java.util.List;
@@ -158,7 +155,7 @@ import java.util.List;
  @CommandLineProgramProperties(
          summary = "Call somatic SNVs and indels via local assembly of haplotypes",
          oneLineSummary = "Call somatic SNVs and indels via local assembly of haplotypes",
-         programGroup = VariantProgramGroup.class
+         programGroup = ShortVariantDiscoveryProgramGroup.class
  )
 @DocumentedFeature
 @BetaFeature

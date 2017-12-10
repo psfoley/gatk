@@ -17,20 +17,14 @@ import org.broadinstitute.barclay.argparser.CommandLineProgramProperties;
 import org.broadinstitute.barclay.help.DocumentedFeature;
 import org.broadinstitute.hellbender.cmdline.CommandLineProgram;
 import org.broadinstitute.hellbender.cmdline.StandardArgumentDefinitions;
-import org.broadinstitute.hellbender.cmdline.programgroups.VariantProgramGroup;
-import org.broadinstitute.hellbender.exceptions.UserException;
+import org.broadinstitute.hellbender.cmdline.programgroups.VariantFilteringProgramGroup;
 import org.broadinstitute.hellbender.tools.walkers.haplotypecaller.AssemblyBasedCallerUtils;
 import org.broadinstitute.hellbender.utils.SimpleInterval;
 import org.broadinstitute.hellbender.utils.Utils;
-import org.broadinstitute.hellbender.utils.text.XReadLines;
 import org.broadinstitute.hellbender.utils.variant.GATKVariantContextUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 /**
  * Create a panel of normals (PoN) containing germline and artifactual sites for use with Mutect2.
@@ -93,7 +87,7 @@ import java.util.stream.StreamSupport;
 @CommandLineProgramProperties(
         summary = "Make a panel of normals (PoN) for use with Mutect2",
         oneLineSummary = "Make a panel of normals for use with Mutect2",
-        programGroup = VariantProgramGroup.class
+        programGroup = VariantFilteringProgramGroup.class
 )
 @DocumentedFeature
 @BetaFeature

@@ -10,17 +10,19 @@ import org.broadinstitute.barclay.argparser.CommandLineProgramProperties;
 import org.broadinstitute.barclay.help.DocumentedFeature;
 import org.broadinstitute.hellbender.cmdline.CommandLineProgram;
 import org.broadinstitute.hellbender.cmdline.StandardArgumentDefinitions;
-import org.broadinstitute.hellbender.cmdline.programgroups.VariantProgramGroup;
+import org.broadinstitute.hellbender.cmdline.programgroups.DiagnosticsAndQCProgramGroup;
 import org.broadinstitute.hellbender.tools.copynumber.utils.segmentation.KernelSegmenter;
 import org.broadinstitute.hellbender.tools.exome.HashedListTargetCollection;
 import org.broadinstitute.hellbender.tools.exome.TargetCollection;
-import org.broadinstitute.hellbender.tools.walkers.qc.Pileup;
+import org.broadinstitute.hellbender.tools.walkers.mutect.FilterMutectCalls;
 import org.broadinstitute.hellbender.utils.IndexRange;
 import org.broadinstitute.hellbender.utils.MathUtils;
-import org.broadinstitute.hellbender.tools.walkers.mutect.FilterMutectCalls;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -67,7 +69,7 @@ import java.util.stream.IntStream;
 @CommandLineProgramProperties(
         summary = "Calculate the fraction of reads coming from cross-sample contamination",
         oneLineSummary = "Calculate the fraction of reads coming from cross-sample contamination",
-        programGroup = VariantProgramGroup.class
+        programGroup = DiagnosticsAndQCProgramGroup.class
 )
 @DocumentedFeature
 public class CalculateContamination extends CommandLineProgram {

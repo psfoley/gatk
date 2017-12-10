@@ -11,15 +11,18 @@ import org.broadinstitute.barclay.argparser.BetaFeature;
 import org.broadinstitute.barclay.argparser.CommandLineProgramProperties;
 import org.broadinstitute.barclay.help.DocumentedFeature;
 import org.broadinstitute.hellbender.cmdline.StandardArgumentDefinitions;
-import org.broadinstitute.hellbender.cmdline.programgroups.VariantProgramGroup;
-import org.broadinstitute.hellbender.engine.*;
-import org.broadinstitute.hellbender.utils.variant.GATKVCFConstants;
-import org.broadinstitute.hellbender.utils.variant.GATKVCFHeaderLines;
+import org.broadinstitute.hellbender.cmdline.programgroups.VariantFilteringProgramGroup;
+import org.broadinstitute.hellbender.engine.FeatureContext;
+import org.broadinstitute.hellbender.engine.ReadsContext;
+import org.broadinstitute.hellbender.engine.ReferenceContext;
+import org.broadinstitute.hellbender.engine.VariantWalker;
 import org.broadinstitute.hellbender.tools.exome.FilterByOrientationBias;
 import org.broadinstitute.hellbender.tools.walkers.contamination.CalculateContamination;
+import org.broadinstitute.hellbender.utils.variant.GATKVCFConstants;
+import org.broadinstitute.hellbender.utils.variant.GATKVCFHeaderLines;
 
 import java.io.File;
-import java.util.*;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -69,7 +72,7 @@ import java.util.stream.Collectors;
 @CommandLineProgramProperties(
         summary = "Filter somatic SNVs and indels called by Mutect2",
         oneLineSummary = "Filter somatic SNVs and indels called by Mutect2",
-        programGroup = VariantProgramGroup.class
+        programGroup = VariantFilteringProgramGroup.class
 )
 @DocumentedFeature
 @BetaFeature
