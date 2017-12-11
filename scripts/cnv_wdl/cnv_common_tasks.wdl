@@ -91,7 +91,7 @@ task CollectCounts {
 
     # Sample name is derived from the bam filename
     String base_filename = basename(bam, ".bam")
-    String counts_filename = if !defined(output_format) then "${base_filename}.counts.hdf5" else "${base_filename}.counts.tsv"
+    String counts_filename = if !defined(format) then "${base_filename}.counts.hdf5" else "${base_filename}.counts.tsv"
 
     command <<<
         set -e
