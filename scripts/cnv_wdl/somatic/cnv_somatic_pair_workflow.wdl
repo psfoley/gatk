@@ -321,7 +321,7 @@ task ModelSegments {
             --kernel-variance-allele-fraction ${default="0.025" kernel_variance_allele_fraction} \
             --kernel-scaling-allele-fraction ${default="1.0" kernel_scaling_allele_fraction} \
             --kernel-approximation-dimension ${default="100" kernel_approximation_dimension} \
-            --window-size ${sep= " --windowSize " window_sizes} \
+            --window-size ${sep= " --window-size " window_sizes} \
             --number-of-changepoints-penalty-factor ${default="1.0" num_changepoints_penalty_factor} \
             --minor-allele-fraction-prior-alpha ${default="25.0" minor_allele_fraction_prior_alpha} \
             --number-of-samples-copy-ratio ${default=100 num_samples_copy_ratio} \
