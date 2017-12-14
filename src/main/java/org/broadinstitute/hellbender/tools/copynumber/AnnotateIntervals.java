@@ -21,23 +21,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Annotates intervals with GC content.  The output may optionally be used by
- * {@link CreateReadCountPanelOfNormals} and {@link DenoiseReadCounts} to perform explicit GC-bias correction.
+ * Annotate intervals with GC content.  The output may optionally be used as input to
+ * {@link CreateReadCountPanelOfNormals}; using the resulting panel as input to {@link DenoiseReadCounts}
+ * will perform explicit GC-bias correction.
+ *
+ * <h3>Input</h3>
+ *
+ * <li>
+ *     Reference.
+ * </li>
+ * <li>
+ *     Intervals (Picard or GATK-style interval list) to be annotated.
+ *     Overlapping intervals will be merged, but no other padding or merging specified by command-line arguments is allowed;
+ *     for example, --interval-merging-rule must be set to {@link IntervalMergingRule#OVERLAPPING_ONLY}.
+ * </li>
+ *
+ * <h3>Output</h3>
+ *
+ * <li>
+ *     Intervals annotated with GC content.
+ *     This is a TSV with a SAM-style header containing a sequence dictionary
+ *     and a row specifying the column headers contained in {@link AnnotatedIntervalTableColumn}.
+ * </li>
  *
  * <h3>Examples</h3>
-
+ *
  * <pre>
- * gatk-launch --javaOptions "-Xmx4g" AnnotateIntervals \
- *   -L intervals.interval_list \
- *   --reference ref_fasta.fa \
- *   --output annotated_intervals.tsv
+ *     gatk AnnotateIntervals \
+ *          -R reference.fa \
+ *          -L intervals.interval_list \
+ *          -O annotated_intervals.tsv
  * </pre>
  *
+ * @author David Benjamin &lt;davidben@broadinstitute.org&gt;
  * @author Samuel Lee &lt;slee@broadinstitute.org&gt;
  */
 @CommandLineProgramProperties(
-        summary = "Annotate intervals with GC content.  " +
-                "Overlapping intervals will be merged, but no other padding or merging specified by command-line arguments is allowed.",
+        summary = "Annotate intervals with GC content.",
         oneLineSummary = "Annotate intervals with GC content.",
         programGroup = CopyNumberProgramGroup.class
 )

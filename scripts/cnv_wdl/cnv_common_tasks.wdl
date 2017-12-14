@@ -102,7 +102,6 @@ task CollectCounts {
             -L ${intervals} \
             --format ${default="HDF5" format} \
             --interval-merging-rule OVERLAPPING_ONLY \
->>>>>>> e996831... ModelSegments kebab case, maybe
             --output ${counts_filename}
     >>>
 

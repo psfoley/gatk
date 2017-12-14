@@ -19,13 +19,16 @@ import java.io.File;
  * <h3>Input</h3>
  *
  * <li>
- *     Copy-ratio segment file (.cr.seg file produced as one of the outputs of {@link ModelSegments})
+ *     Copy-ratio segment file.
+ *     This is the .cr.seg file produced as one of the outputs of {@link ModelSegments}, which
+ *     is a TSV with a SAM-style header containing a read-group sample name, a sequence dictionary,
+ *     and a row specifying the column headers contained in {@link CalledCopyRatioSegmentTableColumn}.
  * </li>
  *
  * <h3>Output</h3>
  *
  * <li>
- *     Called copy-ratio segment file
+ *     Called copy-ratio segment file.
  * </li>
  *
  * <h3>Examples</h3>
