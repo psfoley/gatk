@@ -31,23 +31,23 @@ import java.util.stream.Collectors;
  * <p>
  *     FilterMutectCalls encapsulates GATK3 MuTect2's filtering functionality and adds additional filters.
  *     GATK4 Mutect2 retains variant calling and some prefiltering.
- *     Thresholds for filters are contained in {@link M2FiltersArgumentCollection} and described in <a href='https://github.com/broadinstitute/gatk/tree/master/docs/mutect/mutect.pdf' target='_blank'>.
+ *     Thresholds for filters are contained in {@link M2FiltersArgumentCollection} and described in <a href='https://github.com/broadinstitute/gatk/tree/master/docs/mutect/mutect.pdf' target='_blank'>https://github.com/broadinstitute/gatk/tree/master/docs/mutect/mutect.pdf</a>.
  *     Separating calling and filtering into two tools better enables an iterative filtering process
  *     that allows for context-specific optimizations. To filter further based on sequence context artifacts,
  *     additionally use {@link FilterByOrientationBias}.
  * </p>
  *
  * <p>
- *     Filtering thresholds for both normal_artifact_lod (default threshold 0.0) and tumor_lod (default threshold 5.3) can be set in this tool.
+ *     Filtering thresholds for both normal-artifact-lod (default threshold 0.0) and tumor-lod (default threshold 5.3) can be set in this tool.
  *     If the normal artifact log odds is larger than the threshold, then FilterMutectCalls applies the artifact-in-normal filter.
- *     For matched normal analyses with tumor contamination in the normal, consider increasing the normal_artifact_lod threshold.
+ *     For matched normal analyses with tumor contamination in the normal, consider increasing the normal-artifact-lod threshold.
  *     If the tumor log odds is smaller than the threshold, then FilterMutectCalls filters the variant.
  * </p>
  *
  * <p>
- *     If given a --contaminationTable file, e.g. results from
+ *     If given a --contamination-table file, e.g. results from
  *     {@link CalculateContamination}, the tool will additionally
- *     filter on contamination fractions. Alternatively, provide a numerical fraction to filter with --contamination_fraction_to_filter.
+ *     filter on contamination fractions. Alternatively, provide a numerical fraction to filter with --contamination.
  * </p>
  *
  * <h3>Input</h3>
@@ -62,9 +62,9 @@ import java.util.stream.Collectors;
  *
  * <h3>Example</h3>
  * <pre>
- * gatk --javaOptions "-Xmx4g" FilterMutectCalls \
+ * gatk FilterMutectCalls \
  *   -V unfiltered.vcf.gz \
- *   -contaminationTable contamination.table \
+ *   -contamination-table contamination.table \
  *   -O filtered.vcf.gz
  * </pre>
  *

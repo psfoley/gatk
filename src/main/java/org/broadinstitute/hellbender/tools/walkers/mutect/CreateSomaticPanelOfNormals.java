@@ -44,12 +44,11 @@ import java.util.*;
  *
  * <p>Step 1. Run Mutect2 in tumor-only mode for each normal sample.</p>
  * <pre>
- * gatk --javaOptions "-Xmx4g" Mutect2 \
+ * gatk Mutect2 \
  *   -R ref_fasta.fa \
  *   -I normal1.bam \
  *   -tumor normal1_sample_name \
- *   --germline_resource af-only-gnomad.vcf.gz \
- *   -L intervals.list \
+ *   --germline-resource af-only-gnomad.vcf.gz \
  *   -O normal1_for_pon.vcf.gz
  * </pre>
  *
@@ -65,14 +64,14 @@ import java.util.*;
  * <p>Step 3. Combine the normal calls using CreateSomaticPanelOfNormals.</p>
  *
  * <pre>
- * gatk --javaOptions "-Xmx4g" CreateSomaticPanelOfNormals \
+ * gatk CreateSomaticPanelOfNormals \
  *   -vcfs normals_for_pon_vcf.list \
  *   -O pon.vcf.gz
  * </pre>
  *
  * <p>Alternatively, provide each normal's VCF as separate arguments.</p>
  * <pre>
- * gatk --javaOptions "-Xmx4g" CreateSomaticPanelOfNormals \
+ * gatk CreateSomaticPanelOfNormals \
  *   -vcfs normal1_for_pon_vcf.gz \
  *   -vcfs normal2_for_pon_vcf.gz \
  *   -vcfs normal3_for_pon_vcf.gz \

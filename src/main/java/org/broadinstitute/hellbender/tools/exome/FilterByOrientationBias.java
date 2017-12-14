@@ -36,8 +36,8 @@ import java.util.stream.Collectors;
  *     This tool is complementary to {@link FilterMutectCalls}.
  *     The tool requires the pre-adapter detailed metrics calculated by Picard {@link CollectSequencingArtifactMetrics}.
  *     Specify the base substitution to consider for orientation bias. For a given base substitution specified with
- *     the --artifactModes argument, the tool considers both the forward and reverse complement for filtering.  That is, specifying
- *     {@code --artifactModes 'G/T'} means the tool considers G to T <i>and</i> A to C artifacts for filtering.
+ *     the --artifact-modes argument, the tool considers both the forward and reverse complement for filtering.  That is, specifying
+ *     {@code --artifact-modes 'G/T'} means the tool considers G to T <i>and</i> A to C artifacts for filtering.
  * </p>
  *
  * <p>
@@ -66,7 +66,7 @@ import java.util.stream.Collectors;
  *
  * <h4>Step 1 B: run Picard CollectSequencingArtifactMetrics from a Picard jar</h4>
  * <pre>
- * java -Xmx4G -jar picard.jar CollectSequencingArtifactMetrics \
+ * java -jar picard.jar CollectSequencingArtifactMetrics \
  *   I=tumor.bam \
  *   R=ref.fasta \
  *   O="tumor_artifact" \
@@ -76,8 +76,8 @@ import java.util.stream.Collectors;
  * <h4>Step 2: run FilterByOrientationBias</h4>
  * For OxoG artifacts, specify G to T artifacts.
  * <pre>
- * gatk --javaOptions "-Xmx4g" FilterByOrientationBias \
- *   --artifactModes 'G/T' \
+ * gatk FilterByOrientationBias \
+ *   --artifact-modes 'G/T' \
  *   -V mutect_calls.vcf.gz \
  *   -P tumor.pre_adapter_detail_metrics \
  *   -O oxog_filtered.vcf.gz

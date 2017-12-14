@@ -50,21 +50,20 @@ import java.util.stream.IntStream;
  * <h3>Example: tumor-only mode</h3>
  *
  * <pre>
- * gatk --javaOptions "-Xmx4g" CalculateContamination \
+ * gatk CalculateContamination \
  *   -I pileups.table \
  *   -O contamination.table
- * </pre> *
+ * </pre>
  *
  * <h3>Example: matched normal mode</h3>
  *
  * <pre>
- * gatk --javaOptions "-Xmx4g" CalculateContamination \
+ * gatk CalculateContamination \
  *   -I tumor-pileups.table \
  *   -matched normal-pileups.table \
  *   -O contamination.table
  * </pre>
  *
- * @author David Benjamin &lt;davidben@broadinstitute.org&gt;
  */
 @CommandLineProgramProperties(
         summary = "Calculate the fraction of reads coming from cross-sample contamination",

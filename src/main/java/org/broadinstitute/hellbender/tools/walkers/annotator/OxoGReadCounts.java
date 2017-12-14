@@ -25,7 +25,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-/*
+/**
  *  Count of read pairs in the F1R2 and F2R1 configurations supporting the reference and alternate alleles
  *
  *  <p>This is an annotation that gathers information about the read pair configuration for the reads supporting each

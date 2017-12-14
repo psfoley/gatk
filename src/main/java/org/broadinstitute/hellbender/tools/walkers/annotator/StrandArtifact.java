@@ -20,7 +20,7 @@ import java.util.*;
 import static org.broadinstitute.hellbender.tools.walkers.annotator.StrandArtifact.StrandArtifactZ.*;
 
 /**
- * Annotations for strand artifact filter calculated by a Bayesian model described in <a href='https://github.com/broadinstitute/gatk/tree/master/docs/mutect/mutect.pdf' target='_blank'>.
+ * Annotations for strand artifact filter calculated by a Bayesian model described in <a href='https://github.com/broadinstitute/gatk/tree/master/docs/mutect/mutect.pdf' target='_blank'>https://github.com/broadinstitute/gatk/tree/master/docs/mutect/mutect.pdf</a>.
  *
  * <p>Output consists of two three-element arrays.  The elements of SA_POST_PROB are, respectively, the posterior probabilities that there exists an artifact on the forward strand, an artifact on the reverse strand, or no artifact.
  * These probabilities are normalized to sum to 1.  The elements of SA_MAP_AF are the max a posteriori estimates of the variant allele fraction given a
