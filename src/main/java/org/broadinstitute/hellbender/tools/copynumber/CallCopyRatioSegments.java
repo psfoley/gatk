@@ -14,23 +14,34 @@ import org.broadinstitute.hellbender.tools.copynumber.formats.collections.CopyRa
 import java.io.File;
 
 /**
- * Calls segments as amplified, deleted or copy number neutral given files containing denoised copy ratios
- * and a list of segments.
+ * Call copy-ratio segments as amplified, deleted or copy-number neutral.
+ *
+ * <h3>Input</h3>
+ *
+ * <li>
+ *     Copy-ratio segment file (.cr.seg file produced as one of the outputs of {@link ModelSegments})
+ * </li>
+ *
+ * <h3>Output</h3>
+ *
+ * <li>
+ *     Called copy-ratio segment file
+ * </li>
  *
  * <h3>Examples</h3>
  *
  * <pre>
- * gatk-launch --javaOptions "-Xmx4g" CallCopyRatioSegments \
- *   --segments tumor.cr.seg \
- *   --output tumor.called
+ *     gatk CallCopyRatioSegments \
+ *          -I tumor.cr.seg \
+ *          -O tumor.called.seg
  * </pre>
  *
  * @author David Benjamin &lt;davidben@broadinstitute.org&gt;
  * @author Samuel Lee &lt;slee@broadinstitute.org&gt;
  */
 @CommandLineProgramProperties(
-        summary = "Call copy-ratio segments as amplified, deleted, or copy number neutral.",
-        oneLineSummary = "Call copy-ratio segments as amplified, deleted, or copy number neutral.",
+        summary = "Call copy-ratio segments as amplified, deleted, or copy-number neutral.",
+        oneLineSummary = "Call copy-ratio segments as amplified, deleted, or copy-number neutral.",
         programGroup = CopyNumberProgramGroup.class
 )
 @DocumentedFeature
