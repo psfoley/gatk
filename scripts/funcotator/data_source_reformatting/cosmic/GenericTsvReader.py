@@ -50,82 +50,81 @@ This Agreement is personal to LICENSEE and any rights or obligations assigned by
 """
 
 
-from argparse import ArgumentParser, RawDescriptionHelpFormatter
-from collections import defaultdict
+"""
+Created on Jul 5, 2012
+
+@author: lichtens
+"""
 import csv
-from GenericTsvReader import GenericTsvReader
-from shared_utils import count_lines
+import os
 
 
-def parseOptions():
+class GenericTsvReader(object):
+    """
+    Read a TSV file.  
+    
+    This class wraps a DictReader, but handles comments, which are not handled gracefully in the python csv library. 
+    
+    The next() method assumes user is interested in the content, not the comments.  
+        Get the comments using getComments or getCommentsAsList.  The latter assumes each comment is a line of text. 
+    
+    Notes:
+    IMPORTANT:  At this time, this class does not support comments below the header line.  
+    This class will load all comment lines into RAM at one time.  This could theoretically cause a bottleneck in some files.
+    
+    TODO: Low priority: Possibly make this inherit from DictReader, since it is exactly the same plus some functionality
+    """
 
-    # Process arguments
-    desc = '''Create gene table that handles the total_alterations_in_gene and tissue_types_affected'''
-    epilog = '''
-    '''
-    parser = ArgumentParser(description=desc, formatter_class=RawDescriptionHelpFormatter, epilog=epilog)
-    parser.add_argument("ds_file", type=str, help="COSMIC datasource filename. For example, 'CosmicCompleteExport_v62_261112.tsv' ")
-    parser.add_argument("output_file", type=str, help="TSV filename for output.  File will be overwritten if it already exists.")
+    def __init__(self, filename, commentPrepend='#', fieldNames=None, delimiter='\t'):
+        """
+        Constructor
+        """
+        self.__dict__.update(locals())
+        self.inputContentFP = file(filename, 'r')
+        self.commentLines = ''
+        self.commentPrepend = commentPrepend
+        
+        # The comment lines must be loaded before the dict reader is initialized.
+        self._loadCommentLines()
+        
+        self.dictReader = csv.DictReader(self.inputContentFP, delimiter=delimiter, fieldnames=fieldNames)
 
-    args = parser.parse_args()
-    return args
+    def _loadCommentLines(self):
+        resetLocation = self.inputContentFP.tell()
+        nextChar = self.inputContentFP.read(1)
 
+        # Get rid of blank lines
+        while nextChar in ['\n', '\r']:
+            resetLocation = self.inputContentFP.tell()
+            nextChar = self.inputContentFP.read(1)
+            
+        while nextChar == self.commentPrepend:
+            self.commentLines = self.commentLines + (self.commentPrepend + self.inputContentFP.readline())
+            resetLocation = self.inputContentFP.tell()
+            nextChar = self.inputContentFP.read(1)
+        
+        # Go back one character to make sure that we have moved the file pointer to the
+        #  beginning of the first non-comment line.
+        self.inputContentFP.seek(resetLocation, os.SEEK_SET)
 
-if __name__ == '__main__':
-    args = parseOptions()
-    inputFilename = args.ds_file
-    outputFilename = args.output_file
+    def next(self):
+        return self.dictReader.next()
+        
+    def getFieldNames(self):
+        return self.dictReader.fieldnames
+    
+    def getComments(self):
+        return self.commentLines
 
-    outputHeaders = ['gene', 'total_alterations_in_gene', 'tissue_types_affected']
+    def getCommentsAsList(self):
+        """ Return each comment line as an entry in a list """
+        return self.commentLines.strip().split('\n')
 
-    tsvReader = GenericTsvReader(inputFilename)
-    headers = tsvReader.getFieldNames()
-    print('Found headers (input): ' + str(headers))
-    if "Gene name" not in headers:
-        raise NotImplementedError("Could not find Gene name column in the input file.")
+    def getInputContentFP(self):
+        return self.inputContentFP
 
-    if 'Primary site' not in headers:
-        raise NotImplementedError("Could not find Primary site column in the input file.")
+    def close(self):
+        self.inputContentFP.close()
 
-    # Construct dictionary that is [gene][histology/tissue type] = count, where count is the total for that histology
-    #   and that gene
-    last_i = 0
-    num_lines = count_lines(inputFilename)
-    geneDictionary = defaultdict(dict)
-    for i, line in enumerate(tsvReader):
-        gene = line['Gene name']
-
-        # Skip blank genes
-        if gene is None or gene.strip() == "":
-            continue
-
-        site = line['Primary site']
-        if site not in geneDictionary[gene].keys():
-            geneDictionary[gene][site] = 0
-        geneDictionary[gene][site] += 1
-
-        # Progress...
-        if i - last_i > round(float(num_lines)/100.0):
-            print("{:.0f}% complete".format(100 * float(i)/float(num_lines)))
-            last_i = i
-
-    # Write tsv output file.
-    print("Writing output...")
-    tsvWriter = csv.DictWriter(file(outputFilename,'w'), outputHeaders, delimiter='\t', lineterminator="\n")
-    tsvWriter.fieldnames = outputHeaders
-    tsvWriter.writeheader()
-    sortedGenes = sorted(geneDictionary.keys())
-    for g in sortedGenes:
-        row = dict()
-        # Generate
-        row['gene'] = g
-
-        tissues = []
-        total = 0
-        for h in sorted(geneDictionary[g].keys()):
-            tissues.append(h + "(" + str(geneDictionary[g][h]) + ")")
-            total += geneDictionary[g][h]
-        row['total_alterations_in_gene'] = str(total)
-        row['tissue_types_affected'] = "|".join(tissues)
-        tsvWriter.writerow(row)
-    print("Done")
+    def __iter__(self):
+        return self
