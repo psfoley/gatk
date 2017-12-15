@@ -17,6 +17,7 @@ import org.broadinstitute.hellbender.engine.filters.ReadFilter;
 import org.broadinstitute.hellbender.engine.filters.ReadFilterLibrary;
 import org.broadinstitute.hellbender.tools.copynumber.datacollection.AllelicCountCollector;
 import org.broadinstitute.hellbender.tools.copynumber.formats.CopyNumberArgumentValidationUtils;
+import org.broadinstitute.hellbender.tools.copynumber.formats.collections.AllelicCountCollection;
 import org.broadinstitute.hellbender.tools.copynumber.formats.metadata.Metadata;
 import org.broadinstitute.hellbender.tools.copynumber.formats.metadata.MetadataUtils;
 import org.broadinstitute.hellbender.tools.copynumber.formats.metadata.SampleLocatableMetadata;
@@ -25,67 +26,50 @@ import org.broadinstitute.hellbender.utils.Nucleotide;
 import java.io.File;
 import java.util.List;
 
+import static org.broadinstitute.hellbender.tools.copynumber.formats.collections.AllelicCountCollection.*;
+
 /**
- * Collects reference/alternate allele counts at sites.  The alt count is defined as the total count minus the ref count,
+ * Collect reference and alternate allele counts at sites.  The alt count is defined as the total count minus the ref count,
  * and the alt nucleotide is defined as the non-ref base with the highest count, with ties broken by the order of the
  * bases in {@link AllelicCountCollector#BASES}.
  *
- * <h3>Example</h3>
+ * <h3>Input</h3>
+ *
+ * <li>
+ *     BAM
+ * </li>
+ * <li>
+ *     Reference
+ * </li>
+ * <li>
+ *     Sites (Picard or GATK-style interval list) at which counts will be collected
+ * </li>
+ *
+ * <h3>Output</h3>
+ *
+ * <li>
+ *     Copy-ratio segment file
+ *     (this is a TSV with a SAM-style header containing a read-group sample name, a sequence dictionary,
+ *     a row specifying the column headers contained in {@link AllelicCountCollection.AllelicCountTableColumn},
+ *     and the corresponding entry rows)
+ * </li>
+ *
+ * <h3>Examples</h3>
  *
  * <pre>
- * gatk-launch --javaOptions "-Xmx4g" CollectAllelicCounts \
- *   --input sample.bam \
- *   --reference ref_fasta.fa \
- *   -L sites.interval_list \
- *   --output allelic_counts.tsv
+ *     gatk CollectAllelicCounts \
+ *          -I sample.bam \
+ *          -R reference.fa \
+ *          -L sites.interval_list \
+ *          -O sample.allelicCounts.tsv
  * </pre>
  *
- * <p>
- *     Use -L as usual to specify intervals for the sites of interest.  For example,
- *     a Picard interval list can be used:
- * </p>
- *
- * <pre>
- *     {@literal @}HD	VN:1.4	SO:unsorted
- *     {@literal @}SQ	SN:1	LN:16000	M5:8c0c38e352d8f3309eabe4845456f274
- *     {@literal @}SQ	SN:2	LN:16000	M5:5f8388fe3fb34aa38375ae6cf5e45b89
- *      1	10736	10736	+	normal
- *      1	11522	11522	+	normal
- *      1	12098	12098	+	normal
- *      1	12444	12444	+	normal
- *      1	13059	13059	+	normal
- *      1	14630	14630	+	normal
- *      1	15204	15204	+	normal
- *      2	14689	14689	+	normal
- *      2	14982	14982	+	normal
- *      2	15110	15110	+	normal
- *      2	15629	15629	+	normal
- * </pre>
- *
- * <p>
- *     The resulting table counts the reference versus alternate allele and indicates the alleles. For example:
- * </p>
- *
- * <pre>
- *     CONTIG	POSITION	REF_COUNT	ALT_COUNT	REF_NUCLEOTIDE	ALT_NUCLEOTIDE
- *     1	10736	0	0	G	A
- *     1	11522	7	4	G	C
- *     1	12098	8	6	G	A
- *     1	12444	0	18	T	A
- *     1	13059	0	8	C	G
- *     1	14630	9	8	T	A
- *     1	15204	4	4	C	G
- *     2	14689	6	9	T	A
- *     2	14982	6	5	G	A
- *     2	15110	6	0	G	A
- *     2	15629	5	3	T	C
- * </pre>
- *
+ * @author Lee Lichtenstein &lt;lichtens@broadinstitute.org&gt;
  * @author Samuel Lee &lt;slee@broadinstitute.org&gt;
  */
 @CommandLineProgramProperties(
-        summary = "Collect ref/alt counts at sites.",
-        oneLineSummary = "Collect ref/alt counts at sites.",
+        summary = "Collect reference and alternate allele counts at sites.",
+        oneLineSummary = "Collect reference and alternate allele counts at sites.",
         programGroup = CopyNumberProgramGroup.class
 )
 @DocumentedFeature

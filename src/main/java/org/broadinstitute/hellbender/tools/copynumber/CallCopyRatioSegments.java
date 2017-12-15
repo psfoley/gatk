@@ -14,21 +14,25 @@ import org.broadinstitute.hellbender.tools.copynumber.formats.collections.CopyRa
 import java.io.File;
 
 /**
- * Call copy-ratio segments as amplified, deleted or copy-number neutral.
+ * Call copy-ratio segments as amplified, deleted, or copy-number neutral.
  *
  * <h3>Input</h3>
  *
  * <li>
- *     Copy-ratio segment file.
- *     This is the .cr.seg file produced as one of the outputs of {@link ModelSegments}, which
+ *     Copy-ratio segment file
+ *     (this is a .cr.seg file produced as one of the outputs of {@link ModelSegments}, which
  *     is a TSV with a SAM-style header containing a read-group sample name, a sequence dictionary,
- *     and a row specifying the column headers contained in {@link CalledCopyRatioSegmentTableColumn}.
+ *     a row specifying the column headers contained in {@link CopyRatioSegmentCollection.CopyRatioSegmentTableColumn},
+ *     and the corresponding entry rows)
  * </li>
  *
  * <h3>Output</h3>
  *
  * <li>
- *     Called copy-ratio segment file.
+ *     Called copy-ratio segment file
+ *     (this is a TSV with a SAM-style header containing a read-group sample name, a sequence dictionary,
+ *     a row specifying the column headers contained in {@link CalledCopyRatioSegmentCollection.CalledCopyRatioSegmentTableColumn},
+ *     and the corresponding entry rows)
  * </li>
  *
  * <h3>Examples</h3>

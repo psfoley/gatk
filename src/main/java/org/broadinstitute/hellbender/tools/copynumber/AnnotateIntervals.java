@@ -13,6 +13,7 @@ import org.broadinstitute.hellbender.tools.copynumber.formats.collections.Annota
 import org.broadinstitute.hellbender.tools.copynumber.formats.metadata.SimpleLocatableMetadata;
 import org.broadinstitute.hellbender.tools.copynumber.formats.records.AnnotatedInterval;
 import org.broadinstitute.hellbender.tools.copynumber.formats.records.AnnotationSet;
+import org.broadinstitute.hellbender.utils.IntervalMergingRule;
 import org.broadinstitute.hellbender.utils.Nucleotide;
 import org.broadinstitute.hellbender.utils.SimpleInterval;
 
@@ -28,20 +29,21 @@ import java.util.List;
  * <h3>Input</h3>
  *
  * <li>
- *     Reference.
+ *     Reference
  * </li>
  * <li>
- *     Intervals (Picard or GATK-style interval list) to be annotated.
- *     Overlapping intervals will be merged, but no other padding or merging specified by command-line arguments is allowed;
- *     for example, --interval-merging-rule must be set to {@link IntervalMergingRule#OVERLAPPING_ONLY}.
+ *     Intervals (Picard or GATK-style interval list) to be annotated
+ *     (overlapping intervals will be merged, but no other padding or merging specified by command-line arguments is allowed;
+ *     for example, --interval-merging-rule must be set to {@link IntervalMergingRule#OVERLAPPING_ONLY})
  * </li>
  *
  * <h3>Output</h3>
  *
  * <li>
- *     Intervals annotated with GC content.
- *     This is a TSV with a SAM-style header containing a sequence dictionary
- *     and a row specifying the column headers contained in {@link AnnotatedIntervalTableColumn}.
+ *     Intervals annotated with GC content
+ *     (this is a TSV with a SAM-style header containing a sequence dictionary,
+ *     a row specifying the column headers contained in {@link AnnotatedIntervalCollection.AnnotatedIntervalTableColumn},
+ *     and the corresponding entry rows)
  * </li>
  *
  * <h3>Examples</h3>
