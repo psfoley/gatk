@@ -5,7 +5,7 @@ OUT_DB_FILE="Cosmic.db"
 
 [ -f ${OUT_DB_FILE} ] && rm ${OUT_DB_FILE}
 
-sqlite3 Cosmic.db <<EOF
+sqlite3 ${OUT_DB_FILE} <<EOF
 .echo on
 .mode tabs
 .import ${COSMIC_FILE} RawCosmic
