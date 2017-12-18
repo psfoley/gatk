@@ -25,6 +25,7 @@ import org.broadinstitute.hellbender.tools.copynumber.formats.metadata.Metadata;
 import org.broadinstitute.hellbender.tools.copynumber.formats.metadata.MetadataUtils;
 import org.broadinstitute.hellbender.tools.copynumber.formats.metadata.SampleLocatableMetadata;
 import org.broadinstitute.hellbender.tools.copynumber.formats.records.SimpleCount;
+import org.broadinstitute.hellbender.utils.IntervalMergingRule;
 import org.broadinstitute.hellbender.utils.IntervalUtils;
 import org.broadinstitute.hellbender.utils.SimpleInterval;
 import org.broadinstitute.hellbender.utils.Utils;
@@ -38,18 +39,56 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * Naive implementation of fragment-based coverage collection. The count for each interval is calculated by counting
- * how many different fragment centers intersect with this interval. The start and end positions of fragments are
- * inferred from read information. We only allow properly paired, first of pair reads - thus we do not double count
- * and we exclude reads whose fragment's position cannot be automatically inferred from its SAM record.
+ * Collect fragment counts at specified intervals.  The count for each interval is calculated by counting
+ * the number of fragment centers that lie in interval.  The start and end positions of fragments are
+ * inferred from read information; only properly paired, first-of-pair reads that pass the specified read filters are
+ * used.
  *
+ * <h3>Input</h3>
+ *
+ * <li>
+ *     BAM file.
+ * </li>
+ * <li>
+ *     Reference file.
+ * </li>
+ * <li>
+ *     Intervals (Picard or GATK-style interval list) at which counts will be collected.
+ *     Overlapping intervals will be merged, but no other padding or merging specified by command-line arguments is allowed;
+ *     for example, --interval-merging-rule must be set to {@link IntervalMergingRule#OVERLAPPING_ONLY}.
+ * </li>
+ * <li>
+ *     Output file format.  This can be used to select TSV or HDF5 output.
+ * </li>
+ *
+ * <h3>Output</h3>
+ *
+ * <li>
+ *     Counts file.
+ *     Depending on the output format selected , this is either 1) a TSV with a SAM-style header containing
+ *     a read-group sample name, a sequence dictionary, a row specifying the column headers contained in
+ *     {@link SimpleCountCollection.SimpleCountTableColumn}, and the corresponding entry rows, or
+ *     2) an HDF5 file containing the same information in paths defined in HDF5SimpleCountCollection.
+ *     Using HDF5 files with {@link CreateReadCountPanelOfNormals} can decrease runtime resulting from file input/output,
+ *     so this is the default output format; these files may be viewed using
+ *     <a href="https://support.hdfgroup.org/products/java/hdfview/">hdfview</a>.
+ * </li>
+ *
+ * <h3>Examples</h3>
+ *
+ * <pre>
+ *     gatk CollectFragmentCounts \
+ *          -I sample.bam \
+ *          -R reference.fa \
+ *          -L intervals.interval_list \
+ *          -O sample.counts.tsv
+ * </pre>
  * @author Andrey Smirnov &lt;asmirnov@broadinstitute.org&gt;
  * @author Samuel Lee &lt;slee@broadinstitute.org&gt;
  */
 @CommandLineProgramProperties(
-        summary = "Collect fragment counts, by counting how many fragment centers intersect with a given interval. " +
-                "The fragments are inferred from SAM records of only properly paired intervals.",
-        oneLineSummary = "Collect fragment counts.",
+        summary = "Collect fragment counts at specified intervals.",
+        oneLineSummary = "Collect fragment counts at specified intervals.",
         programGroup = CopyNumberProgramGroup.class
 )
 public final class CollectFragmentCounts extends ReadWalker {

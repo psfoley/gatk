@@ -29,21 +29,21 @@ import java.util.List;
  * <h3>Input</h3>
  *
  * <li>
- *     Reference
+ *     Reference file.
  * </li>
  * <li>
- *     Intervals (Picard or GATK-style interval list) to be annotated
- *     (overlapping intervals will be merged, but no other padding or merging specified by command-line arguments is allowed;
- *     for example, --interval-merging-rule must be set to {@link IntervalMergingRule#OVERLAPPING_ONLY})
+ *     Intervals (Picard or GATK-style interval list) to be annotated.
+ *     Overlapping intervals will be merged, but no other padding or merging specified by command-line arguments is allowed;
+ *     for example, --interval-merging-rule must be set to {@link IntervalMergingRule#OVERLAPPING_ONLY}.
  * </li>
  *
  * <h3>Output</h3>
  *
  * <li>
- *     Intervals annotated with GC content
- *     (this is a TSV with a SAM-style header containing a sequence dictionary,
+ *     File containing intervals annotated with GC content.
+ *     This is a TSV with a SAM-style header containing a sequence dictionary,
  *     a row specifying the column headers contained in {@link AnnotatedIntervalCollection.AnnotatedIntervalTableColumn},
- *     and the corresponding entry rows)
+ *     and the corresponding entry rows.
  * </li>
  *
  * <h3>Examples</h3>

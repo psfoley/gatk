@@ -29,29 +29,29 @@ import java.util.List;
 import static org.broadinstitute.hellbender.tools.copynumber.formats.collections.AllelicCountCollection.*;
 
 /**
- * Collect reference and alternate allele counts at sites.  The alt count is defined as the total count minus the ref count,
- * and the alt nucleotide is defined as the non-ref base with the highest count, with ties broken by the order of the
- * bases in {@link AllelicCountCollector#BASES}.
+ * Collect reference and alternate allele counts at specified sites.  The alt count is defined as the
+ * total count minus the ref count, and the alt nucleotide is defined as the non-ref base with the highest count,
+ * with ties broken by the order of the bases in {@link AllelicCountCollector#BASES}.
  *
  * <h3>Input</h3>
  *
  * <li>
- *     BAM
+ *     BAM file.
  * </li>
  * <li>
- *     Reference
+ *     Reference file.
  * </li>
  * <li>
- *     Sites (Picard or GATK-style interval list) at which counts will be collected
+ *     Sites (Picard or GATK-style interval list) at which allelic counts will be collected.
  * </li>
  *
  * <h3>Output</h3>
  *
  * <li>
- *     Copy-ratio segment file
- *     (this is a TSV with a SAM-style header containing a read-group sample name, a sequence dictionary,
+ *     File containing allelic counts.
+ *     This is a TSV with a SAM-style header containing a read-group sample name, a sequence dictionary,
  *     a row specifying the column headers contained in {@link AllelicCountCollection.AllelicCountTableColumn},
- *     and the corresponding entry rows)
+ *     and the corresponding entry rows.
  * </li>
  *
  * <h3>Examples</h3>
@@ -68,8 +68,8 @@ import static org.broadinstitute.hellbender.tools.copynumber.formats.collections
  * @author Samuel Lee &lt;slee@broadinstitute.org&gt;
  */
 @CommandLineProgramProperties(
-        summary = "Collect reference and alternate allele counts at sites.",
-        oneLineSummary = "Collect reference and alternate allele counts at sites.",
+        summary = "Collect reference and alternate allele counts at specified sites.",
+        oneLineSummary = "Collect reference and alternate allele counts at specified sites.",
         programGroup = CopyNumberProgramGroup.class
 )
 @DocumentedFeature
