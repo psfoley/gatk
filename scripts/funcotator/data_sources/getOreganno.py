@@ -1,10 +1,12 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python
 
 ########################################################################
 # Imports:
 
 import csv
+import sys
 import urllib
+import urllib2
 from GenericTsvReader import GenericTsvReader
 
 ########################################################################
@@ -23,8 +25,10 @@ VALUES_DELIMITER = '|'
 ########################################################################
 # Functions:
 
+FLUSH = sys.stdout.flush
 
-def getValuesDataFromRowDict(r):
+
+def get_values_data_from_row_dict(r):
     values = ''
 
     for key in ['Outcome', 'Type', 'Gene_Symbol', 'Gene_ID', 'Gene_Source', 'Regulatory_Element_Symbol',
@@ -33,17 +37,48 @@ def getValuesDataFromRowDict(r):
 
     return values
 
+
+def get_file_from_url(url, file_name):
+    """Taken from: https://stackoverflow.com/a/22776"""
+    u = urllib2.urlopen(url)
+    f = open(file_name, 'wb')
+    meta = u.info()
+    file_size = int(meta.getheaders("Content-Length")[0])
+    print "Downloading: %s Bytes: %s" % (file_name, file_size)
+
+    file_size_dl = 0
+    block_sz = 8192
+    while True:
+        buffer = u.read(block_sz)
+        if not buffer:
+            break
+
+        file_size_dl += len(buffer)
+        f.write(buffer)
+        status = r"%10d  [%3.2f%%]" % (file_size_dl, file_size_dl * 100. / file_size)
+        status = status + chr(8) * (len(status) + 1)
+        print status,
+
+    f.close()
+
 ########################################################################
 # Main:
 
 if __name__ == '__main__':
 
+    print 'Downloading Oreganno file:', RAW_FILE_NAME, '...',
+    FLUSH()
     # Download the Raw file:
-    urllib.urlretrieve(FILE_URL, RAW_FILE_NAME)
+    # urllib.urlretrieve(FILE_URL, RAW_FILE_NAME)
+    get_file_from_url(FILE_URL, RAW_FILE_NAME)
+    print 'DONE!'
+    FLUSH()
 
     # Get the version of the file:
     file_version = RAW_FILE_NAME.replace('ORegAnno_Combined_', '').replace('.tsv', '').replace('.', '')
 
+    print 'Creating output files ...',
+    FLUSH()
     # Set up the output files:
     out_hg19_tsv_writer = csv.DictWriter(file(OUT_HG19_FILE_NAME_TEMPLATE % file_version, 'w'), OUTPUT_HEADERS, delimiter='\t', lineterminator="\n")
     out_hg19_tsv_writer.fieldnames = OUTPUT_HEADERS
@@ -51,17 +86,23 @@ if __name__ == '__main__':
     out_hg38_tsv_writer = csv.DictWriter(file(OUT_HG38_FILE_NAME_TEMPLATE % file_version, 'w'), OUTPUT_HEADERS, delimiter='\t', lineterminator="\n")
     out_hg38_tsv_writer.fieldnames = OUTPUT_HEADERS
     out_hg38_tsv_writer.writeheader()
+    print 'DONE!'
+    FLUSH()
 
     # Now that we have the file, go through it and reformat it:
     tsvReader = GenericTsvReader(RAW_FILE_NAME)
     headers = tsvReader.getFieldNames()
     print('Found headers (input): ' + str(headers))
+    FLUSH()
 
+    print 'Iterating through input file ...',
+    FLUSH()
     # Go through our file:
     for i, line in enumerate(tsvReader):
 
         if line['Species'].lower() != 'Homo sapiens':
-            print 'Ignoring non-human record on line:', i
+            print '    Ignoring non-human record on line:', i
+            FLUSH()
             continue
 
         # Get the trivial fields here:
@@ -73,14 +114,16 @@ if __name__ == '__main__':
         row['ID'] = line['ORegAnno_ID']
 
         # Get the values field from our helper method:
-        row['Values'] = getValuesDataFromRowDict(row)
+        row['Values'] = get_values_data_from_row_dict(row)
 
         if line['Build'].lower() == 'hg19':
             out_hg19_tsv_writer.writerow(row)
         elif line['Build'].lower() == 'hg38':
             out_hg38_tsv_writer.writerow(row)
         else:
-            print 'Ignoring incompatible build record on line:', i
-
+            print '    Ignoring incompatible build record on line:', i
+            FLUSH()
+    print 'DONE!'
+    FLUSH()
 
 
