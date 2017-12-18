@@ -207,7 +207,7 @@ public class Mutect2IntegrationTest extends CommandLineProgramTest {
                 .filter(vc -> vc.getFilters().isEmpty()).count();
 
         // just a sanity check that this bam has some germline variants on this interval so that our test doesn't pass trivially!
-        Assert.assertTrue(numVariantsBeforeFiltering > 5);
+        Assert.assertTrue(numVariantsBeforeFiltering > 15);
 
         // every variant on this interval in this sample is in gnomAD
         Assert.assertTrue(numVariantsPassingFilters < 2);

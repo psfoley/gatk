@@ -57,7 +57,6 @@ public final class MutectDownsampler extends ReadsDownsampler {
                 return;
             }
 
-
             if (newRead.getMappingQuality() <= SUSPICIOUS_MAPPING_QUALITY) {
                 suspiciousReadCount.increment();
             }
