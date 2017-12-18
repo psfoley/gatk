@@ -20,8 +20,8 @@ EOF
 sqlite3 ${OUT_DB_FILE} <<EOF
 .echo off
 .mode csv
-.import ${OUT_CSV_FILE} CosmicTest
-CREATE INDEX GeneIndex ON CosmicTest("Gene name");
+.import ${OUT_CSV_FILE} Cosmic
+CREATE INDEX GeneIndex ON Cosmic("Gene name");
 VACUUM;
 EOF
 
