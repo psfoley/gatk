@@ -5,6 +5,7 @@ import htsjdk.samtools.util.Interval;
 import htsjdk.samtools.util.IntervalList;
 import org.apache.commons.math3.util.FastMath;
 import org.broadinstitute.barclay.argparser.Argument;
+import org.broadinstitute.barclay.argparser.BetaFeature;
 import org.broadinstitute.barclay.argparser.CommandLineProgramProperties;
 import org.broadinstitute.barclay.help.DocumentedFeature;
 import org.broadinstitute.hellbender.cmdline.StandardArgumentDefinitions;
@@ -58,7 +59,8 @@ import java.util.List;
         oneLineSummary = "Prepare intervals for binning then create bins that cover them.",
         programGroup = CopyNumberProgramGroup.class
 )
-@DocumentedFeature
+@@DocumentedFeature
+@BetaFeature
 public final class PreprocessIntervals extends GATKTool {
     public static final String BIN_LENGTH_LONG_NAME = "binLength";
     public static final String BIN_LENGTH_SHORT_NAME = "BL";

@@ -2,6 +2,7 @@ package org.broadinstitute.hellbender.tools.copynumber;
 
 import org.apache.commons.math3.linear.RealMatrix;
 import org.broadinstitute.barclay.argparser.Argument;
+import org.broadinstitute.barclay.argparser.BetaFeature;
 import org.broadinstitute.barclay.argparser.CommandLineProgramProperties;
 import org.broadinstitute.barclay.help.DocumentedFeature;
 import org.broadinstitute.hdf5.HDF5File;
@@ -42,6 +43,7 @@ import java.io.File;
         programGroup = CopyNumberProgramGroup.class
 )
 @DocumentedFeature
+@BetaFeature
 public final class DenoiseReadCounts extends CommandLineProgram {
     @Argument(
             doc = "Input TSV or HDF5 read-count file containing integer read counts in genomic intervals for a single case sample.",

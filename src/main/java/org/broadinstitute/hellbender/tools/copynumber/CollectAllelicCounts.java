@@ -4,6 +4,7 @@ import htsjdk.samtools.SAMSequenceDictionary;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.broadinstitute.barclay.argparser.Argument;
+import org.broadinstitute.barclay.argparser.BetaFeature;
 import org.broadinstitute.barclay.argparser.CommandLineProgramProperties;
 import org.broadinstitute.barclay.help.DocumentedFeature;
 import org.broadinstitute.hellbender.cmdline.StandardArgumentDefinitions;
@@ -73,6 +74,7 @@ import static org.broadinstitute.hellbender.tools.copynumber.formats.collections
         programGroup = CopyNumberProgramGroup.class
 )
 @DocumentedFeature
+@BetaFeature
 public final class CollectAllelicCounts extends LocusWalker {
     private static final Logger logger = LogManager.getLogger(CollectAllelicCounts.class);
 

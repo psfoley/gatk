@@ -9,7 +9,9 @@ import htsjdk.samtools.util.OverlapDetector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.broadinstitute.barclay.argparser.Argument;
+import org.broadinstitute.barclay.argparser.BetaFeature;
 import org.broadinstitute.barclay.argparser.CommandLineProgramProperties;
+import org.broadinstitute.barclay.help.DocumentedFeature;
 import org.broadinstitute.hellbender.cmdline.StandardArgumentDefinitions;
 import org.broadinstitute.hellbender.cmdline.programgroups.CopyNumberProgramGroup;
 import org.broadinstitute.hellbender.engine.FeatureContext;
@@ -83,6 +85,7 @@ import java.util.stream.Collectors;
  *          -L intervals.interval_list \
  *          -O sample.counts.tsv
  * </pre>
+ *
  * @author Andrey Smirnov &lt;asmirnov@broadinstitute.org&gt;
  * @author Samuel Lee &lt;slee@broadinstitute.org&gt;
  */
@@ -91,6 +94,8 @@ import java.util.stream.Collectors;
         oneLineSummary = "Collect fragment counts at specified intervals.",
         programGroup = CopyNumberProgramGroup.class
 )
+@DocumentedFeature
+@BetaFeature
 public final class CollectFragmentCounts extends ReadWalker {
     private static final Logger logger = LogManager.getLogger(CollectFragmentCounts.class);
 
